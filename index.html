@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b2a37">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Good News">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<style>:root{padding-top:env(safe-area-inset-top,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<title>Good News</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap">
+<style>
+/* 한 손 모바일 앱: 위 키 그림(종이 카드) · 가운데 설명 · 아래 고정 조작 바 */
+:root{
+  --bg:#e7eef0;      /* 바다 안개 */
+  --paper:#fbfaf5;   /* 그림 종이 */
+  --ink:#1b2a37;     /* 남색 잉크 */
+  --muted:#5a6873;
+  --line:#d2dadd;
+  --accent:#9c561c;  /* 키 손잡이 나무색 */
+  --stroke:#33424f;  /* 그림 외곽선 */
+  --hl:#fde7a0;      /* 읽는 문장 */
+  --btn:#1b2a37; --btn-fg:#fbfaf5;
+  --chip:#ffffff;
+  --f-display:"Gowun Batang","Nanum Myeongjo","AppleMyungjo",serif;
+  --f-body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1a23; --paper:#15242f; --ink:#e6edef; --muted:#9fb0ba; --line:#28404e;
+  --accent:#e0a36b; --stroke:#c8d4da; --hl:#5b4a14; --btn:#e6edef; --btn-fg:#0e1a23; --chip:#1b2d39; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1a23; --paper:#15242f; --ink:#e6edef; --muted:#9fb0ba; --line:#28404e;
+  --accent:#e0a36b; --stroke:#c8d4da; --hl:#5b4a14; --btn:#e6edef; --btn-fg:#0e1a23; --chip:#1b2d39; color-scheme:dark}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--f-body);font-size:16px;line-height:1.7;-webkit-tap-highlight-color:transparent;
+  padding:0 16px calc(150px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;padding-block:10px 6px}
+header h1{font-family:var(--f-display);font-weight:700;font-size:1.45rem;margin:0;letter-spacing:.01em}
+header h1 small{display:block;font-family:var(--f-body);font-weight:400;font-size:.72rem;color:var(--muted);letter-spacing:.04em}
+.count{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.9rem;white-space:nowrap}
+#install{border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:4px 12px;font:inherit;font-size:.8rem}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:0 0 auto;border:1px solid var(--line);background:var(--chip);color:var(--muted);
+  border-radius:999px;padding:3px 11px;font:inherit;font-size:.8rem;cursor:pointer}
+.chips button.done{color:var(--ink)}
+.chips button.on{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+.board{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:10px;display:flex;justify-content:center}
+#key{width:100%;max-width:min(100%,56vh);aspect-ratio:1;height:auto;display:block;color:var(--ink)}
+.text{display:flex;flex-direction:column;gap:6px;padding:4px 2px}
+.tag{font-size:.78rem;letter-spacing:.08em;color:var(--accent);font-weight:700}
+.text h2{font-family:var(--f-display);font-size:1.35rem;margin:0;line-height:1.35;text-wrap:balance}
+.draw{font-size:.88rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+#say{margin:4px 0 0;font-size:1.05rem}
+#say span{border-radius:4px;transition:background .2s}
+#say span.now{background:var(--hl)}
+body.hide #say{filter:blur(6px);user-select:none}
+body.hide #say:active{filter:none}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--bg);border-top:1px solid var(--line);
+  padding:8px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.bar .in{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.row{display:flex;gap:8px;align-items:center}
+.row.opts{justify-content:space-between;flex-wrap:wrap;font-size:.85rem}
+.btn{flex:1;border:0;border-radius:14px;padding:13px 6px;font:inherit;font-weight:700;font-size:1rem;cursor:pointer;
+  background:var(--chip);color:var(--ink);border:1px solid var(--line);min-height:50px}
+.btn.main{flex:1.5;background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+.btn.all{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn:disabled{opacity:.4}
+.btn:focus-visible,.chips button:focus-visible,.seg button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:var(--chip);color:var(--muted);font:inherit;font-size:.8rem;padding:4px 10px;cursor:pointer}
+.seg button.on{background:var(--btn);color:var(--btn-fg)}
+label.tg{display:inline-flex;gap:5px;align-items:center;color:var(--muted)}
+.note{font-size:.78rem;color:var(--muted)}
+/* 그림 애니메이션 */
+#key .outline{fill:none;stroke:var(--stroke);stroke-width:1.5}
+#key .cap{fill:currentColor;font-family:var(--f-display);font-size:21px;font-weight:700}
+#key .lbl text{fill:#1b2a37;font-family:var(--f-body)}
+#key .new .outline{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .9s ease forwards}
+#key .new .scrib{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s .55s ease-in-out forwards}
+#key .new .lbl,#key .new.capg{opacity:0;animation:fade .6s 1.5s forwards}
+#key .cur .fill{filter:drop-shadow(0 0 5px rgba(255,190,60,.8))}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+@media (prefers-reduced-motion: reduce){
+  #key .new .outline,#key .new .scrib{animation:none;stroke-dashoffset:0}
+  #key .new .lbl,#key .new.capg{animation:none;opacity:1}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Good News<small>키 그림으로 전하는 복음</small></h1>
+    <div class="row"><button id="install" hidden>앱 설치</button><span class="count" id="count">0 / 16</span></div>
+  </header>
+  <nav class="chips" id="chips" aria-label="단계"></nav>
+  <div class="board"><svg id="key" viewBox="-218 -218 436 436" role="img" aria-label="키 그림"></svg></div>
+  <section class="text" aria-live="polite">
+    <div class="tag" id="tag"></div>
+    <h2 id="title"></h2>
+    <div class="draw" id="draw"></div>
+    <p id="say"></p>
+    <p class="note" id="tts-note" hidden>이 기기에서는 음성 읽기를 쓸 수 없어 글만 보여 줍니다.</p>
+  </section>
+</div>
+
+<div class="bar"><div class="in">
+  <div class="row opts">
+    <span class="seg" id="rate" aria-label="말하기 속도">
+      <button data-r="0.8">느리게</button><button data-r="1">보통</button><button data-r="1.2">빠르게</button>
+    </span>
+    <label class="tg"><input type="checkbox" id="loop"> 반복</label>
+    <label class="tg"><input type="checkbox" id="hide"> 글 가리기</label>
+  </div>
+  <div class="row">
+    <button class="btn" id="prev" aria-label="이전 단계">◀ 이전</button>
+    <button class="btn all" id="all">전체듣기</button>
+    <button class="btn main" id="next">Next ▶</button>
+  </div>
+</div></div>
+
+<script>
+/* ===== 데이터: 단계(STEPS) — 그림 단계 번호(n)는 아래 PARTS의 from/to와 맞춘다 ===== */
+const STEPS = [
+ {tag:"GOOD NEWS", title:"키 그림으로 전하는 기쁜 소식", draw:"완성된 키 그림입니다. Next를 누르면 처음부터 한 단계씩 그립니다.",
+  say:"굿 뉴스, 키 그림으로 전하는 기쁜 소식입니다. 이 그림은 배를 움직이는 키를 닮았습니다. 다음 버튼을 누르면 한 단계씩 그림을 그리며 설명을 듣고, 전체듣기를 누르면 처음부터 끝까지 이어서 들을 수 있습니다."},
+ {tag:"그리기 1", title:"자아가 다스리는 삶", draw:"큰 원 안에 작은 원 · 가운데 '자아' · 아래 '나의 의지, 나의 소망'",
+  say:"먼저 큰 원 안에 작은 원을 그리고, 가운데에 자아라고 씁니다. 큰 원 아래에는 나의 의지, 나의 소망이라고 씁니다. 이 그림은 예수님을 믿기 전의 사람입니다. 삶의 왕좌에 내가 앉아서, 모든 것을 내 뜻과 내 바람대로 정하는 자기중심의 삶입니다."},
+ {tag:"그리기 2", title:"예수님이 중심에 계신 삶", draw:"작은 원 가운데 '예수님' · 아래 '그분의 의지, 그분의 소망'",
+  say:"이번에는 작은 원 가운데에 예수님이라고 씁니다. 큰 원 아래에는 그분의 의지, 그분의 소망이라고 씁니다. 예수님을 마음에 모셔 들인 사람의 모습입니다. 이제 삶의 왕좌에는 예수님이 계시고, 그분의 뜻을 따르는 그리스도 중심의 삶이 시작됩니다."},
+ {tag:"그리기 3", title:"구원의 확신", draw:"예수님 둘레에 원을 하나 더 그려 반으로 나누고 위쪽에 '구원의 확신'",
+  say:"예수님 원 둘레에 원을 하나 더 그리고 반으로 나눕니다. 위쪽에는 구원의 확신이라고 씁니다. 그리스도 중심의 삶은, 내가 하나님의 자녀가 되었다는 분명한 확신에서 출발합니다."},
+ {tag:"그리기 4", title:"하나님의 성품", draw:"아래쪽에 '하나님의 성품'",
+  say:"아래쪽에는 하나님의 성품이라고 씁니다. 하나님이 어떤 분이신지 알아 갈수록, 내 삶 속에 계신 그리스도를 더 깊이 알게 됩니다."},
+ {tag:"그리기 5", title:"여덟 가지 삶의 영역", draw:"바깥 원을 여덟 칸으로 나누기",
+  say:"이제 바깥 원을 여덟 칸으로 나눕니다. 이 여덟 칸은 예수님 중심의 삶을 이루는 여덟 가지 영역입니다. 위쪽 오른편부터 시계 방향으로 하나씩 채워 보겠습니다."},
+ {tag:"영역 1", title:"성경", draw:"첫째 칸에 '성경'",
+  say:"첫째, 성경입니다. 우리는 성경을 통해 하나님을 알 수 있습니다. 하나님은 성경으로 우리에게 말씀하시고, 성경은 그리스도인의 삶을 이끄는 기본 지침서입니다."},
+ {tag:"영역 2", title:"기도", draw:"둘째 칸에 '기도'",
+  say:"둘째, 기도입니다. 기도는 하나님과 나누는 대화입니다. 성경으로 하나님의 말씀을 듣고 기도로 내 마음을 아뢸 때, 하나님과의 수직적인 관계가 더욱 깊어집니다."},
+ {tag:"영역 3", title:"교제", draw:"셋째 칸에 '교제'",
+  say:"셋째, 교제입니다. 하나님과 바른 관계를 맺으면 사람들과도 바른 관계를 맺을 수 있습니다. 성도들과 그리스도 안에서 서로 돌아보며, 믿음을 세워 주는 교제를 나눕니다."},
+ {tag:"영역 4", title:"전도", draw:"넷째 칸에 '전도'",
+  say:"넷째, 전도입니다. 아직 예수님을 모르는 이웃에게 예수님을 전합니다. 그들도 하나님과 인격적인 관계를 맺을 수 있도록 돕는 것입니다."},
+ {tag:"영역 5", title:"성령 충만", draw:"다섯째 칸에 '성령 충만'",
+  say:"다섯째, 성령 충만입니다. 성령님이 다스리시고 예수님이 중심 되시는 삶이 무엇인지 배우고, 날마다 그렇게 살아갑니다."},
+ {tag:"영역 6", title:"시험", draw:"여섯째 칸에 '시험'",
+  say:"여섯째, 시험입니다. 시험을 받지 않는 사람은 없습니다. 그러나 하나님은 우리를 건져 주십니다. 영적인 싸움에 대한 성경의 가르침을 붙듭니다."},
+ {tag:"영역 7", title:"순종", draw:"일곱째 칸에 '순종'",
+  say:"일곱째, 순종입니다. 예수님 중심의 삶을 살려면, 지금까지 배운 모든 가르침에 순종으로 응답해야 합니다."},
+ {tag:"영역 8", title:"사역", draw:"여덟째 칸에 '사역'",
+  say:"여덟째, 사역입니다. 순종하는 사람을 하나님은 새로운 사역으로 이끄십니다."},
+ {tag:"그리기 6", title:"예수님이 다스리는 삶", draw:"겉에 원을 하나 더 · 위 '예수님이' · 아래 '다스리는 삶'",
+  say:"가장 바깥에 원을 하나 더 그리고, 위와 아래에 예수님이 다스리는 삶이라고 씁니다. 하나님을 알고 그분께 순종할수록, 삶의 모든 영역이 점점 더 예수님 중심으로 바뀌어 갑니다."},
+ {tag:"그리기 7", title:"키의 손잡이", draw:"원 바깥에 손잡이 여덟 개",
+  say:"마지막으로 키에 손잡이를 그립니다. 이 그림은 배의 키입니다. 항해사가 키를 잡고 배를 항로대로 이끌듯, 우리 삶의 모든 부분을 그리스도께 맡겨 그분이 다스리시게 합시다."},
+ {tag:"암송 정리", title:"키 그림 한눈에", draw:"중심 · 안쪽 원 · 여덟 영역 · 바깥 원",
+  say:"이제 키 그림을 정리합니다. 가운데에는 예수님. 안쪽 원 위에는 구원의 확신, 아래에는 하나님의 성품. 여덟 영역은 성경, 기도, 교제, 전도, 성령 충만, 시험, 순종, 사역. 바깥 원은 예수님이 다스리는 삶. 손잡이를 잡고 예수님께 삶의 키를 맡겨 드립시다."}
+];
+
+/* ===== 그림 ===== */
+const COL = {self:"#CFCFCF", jesus:"#FFD45E", sure:"#FBE3A0", char:"#F8CDB8", rim:"#C68A55", handle:"#8A5A36"};
+const SEG = [["성경","#F4C95D"],["기도","#93C5E8"],["교제","#9FD39B"],["전도","#F3A367"],
+             ["성령 충만","#F28B82"],["시험","#B9A3E3"],["순종","#7FD1C1"],["사역","#E7A6C8"]];
+const R0=46, R1=86, R2=150, R3=178;
+const P=(r,a)=>{const t=a*Math.PI/180;return [(r*Math.sin(t)).toFixed(2),(-r*Math.cos(t)).toFixed(2)];};
+const circ=r=>`M0,${-r}A${r},${r} 0 1 1 0,${r}A${r},${r} 0 1 1 0,${-r}Z`;
+function sector(r1,r2,a1,a2){const L=(a2-a1)>180?1:0,[x1,y1]=P(r2,a1),[x2,y2]=P(r2,a2),[x3,y3]=P(r1,a2),[x4,y4]=P(r1,a1);
+  return `M${x1},${y1}A${r2},${r2} 0 ${L} 1 ${x2},${y2}L${x3},${y3}A${r1},${r1} 0 ${L} 0 ${x4},${y4}Z`;}
+function arcPath(r,a1,a2,sweep){const [x1,y1]=P(r,a1),[x2,y2]=P(r,a2);return `M${x1},${y1}A${r},${r} 0 0 ${sweep} ${x2},${y2}`;}
+const T=(x,y,s,w,txt)=>`<text x="${x}" y="${y}" font-size="${s}" font-weight="${w}" text-anchor="middle" dominant-baseline="central">${txt}</text>`;
+function onArc(id,d,s,txt){return `<path id="${id}" d="${d}" fill="none"/><text font-size="${s}" font-weight="700"><textPath href="#${id}" startOffset="50%" text-anchor="middle">${txt}</textPath></text>`;}
+
+const PARTS = [];
+PARTS.push({from:1, d:circ(R2), fill:"none"});
+PARTS.push({from:1, to:1, d:circ(R0), fill:COL.self, lbl:T(0,0,27,700,"자아")});
+PARTS.push({from:1, to:1, cap:"나의 의지, 나의 소망"});
+PARTS.push({from:2, d:circ(R0), fill:COL.jesus, lbl:T(0,0,26,700,"예수님")});
+PARTS.push({from:2, to:2, cap:"그분의 의지, 그분의 소망"});
+PARTS.push({from:3, d:sector(R0,R1,-90,90), fill:COL.sure, lbl:onArc("aSure",arcPath(59,-80,80,1),17,"구원의 확신")});
+PARTS.push({from:4, d:sector(R0,R1,90,270), fill:COL.char, lbl:onArc("aChar",arcPath(72,260,100,0),17,"하나님의 성품")});
+PARTS.push({from:5, d:Array.from({length:8},(_,i)=>{const [a,b]=P(R1,i*45),[c,e]=P(R2,i*45);return `M${a},${b}L${c},${e}`}).join(""), fill:"none"});
+SEG.forEach(([name,c],i)=>{
+  const [x,y]=P(118,i*45+22.5), lines=name.split(" ");
+  const lbl=lines.length>1? T(x,+y-11,18,700,lines[0])+T(x,+y+11,18,700,lines[1]) : T(x,y,21,700,name);
+  PARTS.push({from:6+i, d:sector(R1,R2,i*45,i*45+45), fill:c, lbl, seg:i});
+});
+PARTS.push({from:14, d:circ(R3)+circ(R2), fill:COL.rim, rule:"evenodd",
+  lbl:onArc("aTop",arcPath(157,-65,65,1),19,"예수님이")+onArc("aBot",arcPath(167,245,115,0),19,"다스리는 삶")});
+for(let i=0;i<8;i++) PARTS.push({from:15, tf:`rotate(${i*45})`, d:`M-6,${-R3}L-6,-196A10,10 0 1 1 6,-196L6,${-R3}Z`, fill:COL.handle});
+
+const LAST = STEPS.length-1;
+function visible(p,s){ if(s===0) return p.to==null; return p.from<=s && (p.to==null || s<=p.to); }
+function renderKey(s, animate){
+  const svg=document.getElementById("key"); let out="";
+  PARTS.forEach((p,k)=>{
+    if(!visible(p,s)) return;
+    const isNew = animate && p.from===s && s!==0;
+    if(p.cap){ out+=`<g class="capg${isNew?" new":""}"><text class="cap" x="0" y="${R2+38}" text-anchor="middle">${p.cap}</text></g>`; return; }
+    const cls=["part"]; if(isNew) cls.push("new"); if(p.from===s && s!==0 && s!==LAST) cls.push("cur");
+    out+=`<g class="${cls.join(" ")}"${p.tf?` transform="${p.tf}"`:""}>`;
+    if(p.fill!=="none"){
+      if(isNew) out+=`<mask id="m${k}" maskUnits="userSpaceOnUse" x="-230" y="-230" width="460" height="460"><path class="scrib" data-for="f${k}" pathLength="1" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"/></mask>`;
+      out+=`<path id="f${k}" class="fill" d="${p.d}" fill="${p.fill}" fill-rule="${p.rule||"nonzero"}"${isNew?` mask="url(#m${k})"`:""}/>`;
+    }
+    out+=`<path class="outline" d="${p.d}" pathLength="1"/>`;
+    if(p.lbl) out+=`<g class="lbl">${p.lbl}</g>`;
+    out+=`</g>`;
+  });
+  svg.innerHTML=out;
+  // 크레용 색칠: 칠할 모양의 범위를 지그재그로 덮는다
+  svg.querySelectorAll(".scrib").forEach(sc=>{
+    const f=svg.querySelector("#"+sc.dataset.for); if(!f) return;
+    const b=f.getBBox(), gap=Math.max(9,Math.min(b.width,b.height)/6), sw=gap*1.9;
+    let d=`M${b.x-sw},${b.y}`, dn=true;
+    for(let x=b.x-sw; x<=b.x+b.width+sw; x+=gap){ d+=`L${x+gap/2},${dn?b.y+b.height+sw/2:b.y-sw/2}`; dn=!dn; }
+    sc.setAttribute("d",d); sc.setAttribute("stroke-width",sw);
+  });
+}
+
+/* ===== 설정 ===== */
+const store={get(k,d){try{const v=localStorage.getItem("goodnews:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+             set(k,v){try{localStorage.setItem("goodnews:"+k,JSON.stringify(v))}catch(e){}}};
+let rate=store.get("rate",1), cur=0, playing=false, token=0, wake=null;
+
+/* ===== 음성 ===== */
+const synth=("speechSynthesis" in window)?window.speechSynthesis:null;
+let koVoice=null;
+function pickVoice(){ if(!synth) return; const vs=synth.getVoices();
+  koVoice = vs.find(v=>/ko[-_]KR/i.test(v.lang)&&/female|yuna|sunhi|heami|google/i.test(v.name)) || vs.find(v=>/^ko/i.test(v.lang)) || null; }
+if(synth){ pickVoice(); synth.onvoiceschanged=pickVoice; } else document.getElementById("tts-note").hidden=false;
+const sentences=t=>(t.match(/[^.?!]+[.?!]?/g)||[]).map(x=>x.trim()).filter(Boolean);
+function est(t){ return (t.replace(/\s/g,"").length*190)/rate + 500; }
+function speakOne(text, cb){
+  if(!synth){ setTimeout(cb, est(text)); return; }
+  let done=false; const fin=()=>{ if(done) return; done=true; clearTimeout(w); cb(); };
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang="ko-KR"; if(koVoice) u.voice=koVoice; u.rate=rate; u.onend=fin; u.onerror=fin;
+  const w=setTimeout(fin, est(text)*2.2+3000);   // onend가 안 오는 기기 대비
+  synth.speak(u);
+}
+function stopSpeech(){ token++; if(synth) synth.cancel(); markSent(-1); }
+function markSent(i){ document.querySelectorAll("#say span").forEach((s,k)=>s.classList.toggle("now",k===i)); }
+function say(i, done){
+  stopSpeech(); const my=token, list=sentences(STEPS[i].say); let k=0;
+  (function next(){
+    if(my!==token) return;
+    if(k>=list.length){ markSent(-1); done&&done(); return; }
+    markSent(k); speakOne(list[k], ()=>{ if(my!==token) return; k++; setTimeout(next,180); });
+  })();
+}
+
+/* ===== 화면 ===== */
+const $=id=>document.getElementById(id);
+const chips=$("chips");
+STEPS.forEach((s,i)=>{ const b=document.createElement("button"); b.textContent=i===0?"표지":(i===LAST?"정리":s.title);
+  b.onclick=()=>{ stopAll(); go(i); }; chips.appendChild(b); });
+function show(i, animate){
+  cur=i; const s=STEPS[i];
+  $("tag").textContent=s.tag; $("title").textContent=s.title; $("draw").textContent="그리기 · "+s.draw;
+  $("say").innerHTML=sentences(s.say).map(t=>`<span>${t}</span>`).join(" ");
+  $("count").textContent=`${i} / ${LAST}`;
+  [...chips.children].forEach((b,k)=>{ b.classList.toggle("on",k===i); b.classList.toggle("done",k<i); });
+  const on=chips.children[i]; on && on.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+  $("prev").disabled=i===0; $("next").textContent = i===LAST ? "처음으로" : "Next ▶";
+  renderKey(i, animate);
+  store.set("step",i);
+}
+function go(i, speak=true){ show(i,true); if(speak) say(i); }
+
+async function lockScreen(on){ try{ if(on && navigator.wakeLock) wake=await navigator.wakeLock.request("screen"); else if(wake){ wake.release(); wake=null; } }catch(e){} }
+function playAll(){
+  playing=true; $("all").textContent="■ 멈춤"; lockScreen(true);
+  if(cur===0||cur===LAST) show(1,true);
+  run();
+}
+function run(){
+  say(cur, ()=>{ if(!playing) return;
+    setTimeout(()=>{ if(!playing) return;
+      if(cur<LAST){ show(cur+1,true); run(); }
+      else if($("loop").checked){ show(1,true); run(); }
+      else stopAll();
+    }, 1300);
+  });
+}
+function stopAll(){ playing=false; $("all").textContent="전체듣기"; lockScreen(false); stopSpeech(); }
+
+$("next").onclick=()=>{ stopAll(); go(cur===LAST?0:cur+1); };
+$("prev").onclick=()=>{ stopAll(); if(cur>0) go(cur-1); };
+$("all").onclick=()=>{ playing?stopAll():playAll(); };
+$("say").onclick=()=>{ if(!playing) say(cur); };   // 글을 누르면 다시 듣기
+document.addEventListener("keydown",e=>{ if(e.key==="ArrowRight") $("next").click(); if(e.key==="ArrowLeft") $("prev").click(); });
+
+const rateBox=$("rate");
+function paintRate(){ [...rateBox.children].forEach(b=>b.classList.toggle("on",+b.dataset.r===rate)); }
+rateBox.onclick=e=>{ const b=e.target.closest("button"); if(!b) return; rate=+b.dataset.r; store.set("rate",rate); paintRate(); if(!playing && synth && synth.speaking) say(cur); };
+paintRate();
+$("loop").checked=store.get("loop",false); $("loop").onchange=e=>store.set("loop",e.target.checked);
+$("hide").checked=store.get("hide",false); document.body.classList.toggle("hide",$("hide").checked);
+$("hide").onchange=e=>{ store.set("hide",e.target.checked); document.body.classList.toggle("hide",e.target.checked); };
+
+/* 앱 설치(PWA) */
+let deferred=null;
+window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferred=e; $("install").hidden=false; });
+$("install").onclick=async()=>{ if(!deferred) return; deferred.prompt(); await deferred.userChoice; deferred=null; $("install").hidden=true; };
+
+show(Math.min(store.get("step",0),LAST), false);
+</script>
+
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
+</body>
+</html>
