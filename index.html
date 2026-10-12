@@ -27,21 +27,23 @@
   --hl:#fde7a0;      /* 읽는 문장 */
   --btn:#1b2a37; --btn-fg:#fbfaf5;
   --chip:#ffffff;
+  --me-bg:#f5e4d2;   /* 전도자 말풍선 */
   --f-display:"Gowun Batang","Nanum Myeongjo","AppleMyungjo",serif;
   --f-body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0e1a23; --paper:#15242f; --ink:#e6edef; --muted:#9fb0ba; --line:#28404e;
-  --accent:#e0a36b; --stroke:#c8d4da; --hl:#5b4a14; --btn:#e6edef; --btn-fg:#0e1a23; --chip:#1b2d39; color-scheme:dark}}
+  --accent:#e0a36b; --stroke:#c8d4da; --hl:#5b4a14; --btn:#e6edef; --btn-fg:#0e1a23; --chip:#1b2d39; --me-bg:#3b2b1d; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0e1a23; --paper:#15242f; --ink:#e6edef; --muted:#9fb0ba; --line:#28404e;
-  --accent:#e0a36b; --stroke:#c8d4da; --hl:#5b4a14; --btn:#e6edef; --btn-fg:#0e1a23; --chip:#1b2d39; color-scheme:dark}
+  --accent:#e0a36b; --stroke:#c8d4da; --hl:#5b4a14; --btn:#e6edef; --btn-fg:#0e1a23; --chip:#1b2d39; --me-bg:#3b2b1d; color-scheme:dark}
 html,body{background:var(--bg);color:var(--ink)}
 body{font-family:var(--f-body);font-size:16px;line-height:1.7;-webkit-tap-highlight-color:transparent;
   padding:0 16px calc(150px + env(safe-area-inset-bottom,0px))}
 .wrap{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);
-  display:flex;align-items:center;justify-content:space-between;gap:8px;padding-block:10px 6px}
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding-block:10px 8px}
+header .tabs{flex:1 0 100%}
 header h1{font-family:var(--f-display);font-weight:700;font-size:1.45rem;margin:0;letter-spacing:.01em}
 header h1 small{display:block;font-family:var(--f-body);font-weight:400;font-size:.72rem;color:var(--muted);letter-spacing:.04em}
 .count{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.9rem;white-space:nowrap}
@@ -79,6 +81,39 @@ body.hide #say:active{filter:none}
 .seg button.on{background:var(--btn);color:var(--btn-fg)}
 label.tg{display:inline-flex;gap:5px;align-items:center;color:var(--muted)}
 .note{font-size:.78rem;color:var(--muted)}
+/* 메뉴 */
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--chip);border:1px solid var(--line);border-radius:14px;padding:4px}
+.tabs button{border:0;border-radius:10px;padding:9px 6px;font:inherit;font-weight:700;font-size:.95rem;background:transparent;color:var(--muted);cursor:pointer}
+.tabs button.on{background:var(--btn);color:var(--btn-fg)}
+.tabs button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+/* 전도 샘플 */
+body.sample .board{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--hdr,64px));z-index:4;padding:6px}
+body.sample #key{max-width:min(100%,34vh)}
+.scene{display:flex;flex-direction:column;gap:4px;padding:2px}
+.scene h2{font-family:var(--f-display);font-size:1.25rem;margin:0}
+.scene p{margin:0;font-size:.92rem;color:var(--muted)}
+.legend{display:flex;gap:12px;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-1px;margin-right:4px;border:1px solid var(--line)}
+#talk{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.msg{display:flex;flex-direction:column;gap:3px;max-width:88%;min-width:0;scroll-margin-bottom:170px;scroll-margin-top:45vh}
+.msg.me{align-self:flex-end;align-items:flex-end}
+.msg.you{align-self:flex-start}
+.msg.later{display:none}
+.msg .name{font-size:.75rem;color:var(--muted)}
+.bub{padding:10px 14px;border-radius:16px;background:var(--chip);border:1px solid var(--line);font-size:1rem;line-height:1.65;cursor:pointer}
+.me .bub{background:var(--me-bg);border-color:transparent;border-bottom-right-radius:4px}
+.you .bub{border-bottom-left-radius:4px}
+.msg.pray .bub{border:1.5px dashed var(--accent);font-family:var(--f-display)}
+.msg.now .bub{box-shadow:0 0 0 2.5px var(--accent)}
+.tip{font-size:.8rem;color:var(--accent);max-width:100%}
+.tip b{font-weight:700}
+body.hide .msg .bub{filter:blur(5px)}
+body.hide .msg.now .bub:active{filter:none}
+.after{border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.after h3{font-family:var(--f-display);font-size:1.05rem;margin:0}
+.after dl{margin:0;display:flex;flex-direction:column;gap:8px}
+.after dt{font-weight:700;font-size:.92rem}
+.after dd{margin:0;font-size:.92rem;color:var(--muted)}
 /* 그림 애니메이션 */
 #key .outline{fill:none;stroke:var(--stroke);stroke-width:1.5}
 #key .cap{fill:currentColor;font-family:var(--f-display);font-size:21px;font-weight:700}
@@ -100,6 +135,7 @@ label.tg{display:inline-flex;gap:5px;align-items:center;color:var(--muted)}
   <header>
     <h1>Good News<small>키 그림으로 전하는 복음</small></h1>
     <div class="row"><button id="install" hidden>앱 설치</button><span class="count" id="count">0 / 16</span></div>
+    <nav class="tabs" id="tabs" aria-label="메뉴"><button data-m="learn">키 그림 배우기</button><button data-m="sample">전도 샘플</button></nav>
   </header>
   <nav class="chips" id="chips" aria-label="단계"></nav>
   <div class="board"><svg id="key" viewBox="-218 -218 436 436" role="img" aria-label="키 그림"></svg></div>
@@ -108,8 +144,21 @@ label.tg{display:inline-flex;gap:5px;align-items:center;color:var(--muted)}
     <h2 id="title"></h2>
     <div class="draw" id="draw"></div>
     <p id="say"></p>
-    <p class="note" id="tts-note" hidden>이 기기에서는 음성 읽기를 쓸 수 없어 글만 보여 줍니다.</p>
   </section>
+  <section id="sampleView" hidden>
+    <div class="scene">
+      <div class="tag" id="sTag">전도 샘플</div>
+      <h2 id="sTitle"></h2>
+      <p id="sScene"></p>
+      <div class="legend"><span><i style="background:var(--me-bg)"></i>나(전도자)</span><span><i style="background:var(--chip)"></i><span id="sYou"></span></span></div>
+    </div>
+    <ol id="talk"></ol>
+    <div class="after" id="after" hidden>
+      <h3>이럴 땐 이렇게</h3>
+      <dl id="faq"></dl>
+    </div>
+  </section>
+  <p class="note" id="tts-note" hidden>이 기기에서는 음성 읽기를 쓸 수 없어 글만 보여 줍니다.</p>
 </div>
 
 <div class="bar"><div class="in">
@@ -198,7 +247,7 @@ PARTS.push({from:14, d:circ(R3)+circ(R2), fill:COL.rim, rule:"evenodd",
 for(let i=0;i<8;i++) PARTS.push({from:15, tf:`rotate(${i*45})`, d:`M-6,${-R3}L-6,-196A10,10 0 1 1 6,-196L6,${-R3}Z`, fill:COL.handle});
 
 const LAST = STEPS.length-1;
-function visible(p,s){ if(s===0) return p.to==null; return p.from<=s && (p.to==null || s<=p.to); }
+function visible(p,s){ if(s<0) return false; if(s===0) return p.to==null; return p.from<=s && (p.to==null || s<=p.to); }
 function renderKey(s, animate){
   const svg=document.getElementById("key"); let out="";
   PARTS.forEach((p,k)=>{
@@ -215,6 +264,7 @@ function renderKey(s, animate){
     if(p.lbl) out+=`<g class="lbl">${p.lbl}</g>`;
     out+=`</g>`;
   });
+  if(s<0) out=`<text class="cap" x="0" y="0" text-anchor="middle" opacity=".45">대화를 따라 여기에 키 그림을 그립니다</text>`;
   svg.innerHTML=out;
   // 크레용 색칠: 칠할 모양의 범위를 지그재그로 덮는다
   svg.querySelectorAll(".scrib").forEach(sc=>{
@@ -233,17 +283,18 @@ let rate=store.get("rate",1), cur=0, playing=false, token=0, wake=null;
 
 /* ===== 음성 ===== */
 const synth=("speechSynthesis" in window)?window.speechSynthesis:null;
-let koVoice=null;
+let koVoice=null, koVoice2=null;
 function pickVoice(){ if(!synth) return; const vs=synth.getVoices();
-  koVoice = vs.find(v=>/ko[-_]KR/i.test(v.lang)&&/female|yuna|sunhi|heami|google/i.test(v.name)) || vs.find(v=>/^ko/i.test(v.lang)) || null; }
+  koVoice = vs.find(v=>/ko[-_]KR/i.test(v.lang)&&/female|yuna|sunhi|heami|google/i.test(v.name)) || vs.find(v=>/^ko/i.test(v.lang)) || null;
+  koVoice2 = vs.find(v=>/^ko/i.test(v.lang) && v!==koVoice) || null; }
 if(synth){ pickVoice(); synth.onvoiceschanged=pickVoice; } else document.getElementById("tts-note").hidden=false;
 const sentences=t=>(t.match(/[^.?!]+[.?!]?/g)||[]).map(x=>x.trim()).filter(Boolean);
 function est(t){ return (t.replace(/\s/g,"").length*190)/rate + 500; }
-function speakOne(text, cb){
+function speakOne(text, cb, o={}){
   if(!synth){ setTimeout(cb, est(text)); return; }
   let done=false; const fin=()=>{ if(done) return; done=true; clearTimeout(w); cb(); };
   const u=new SpeechSynthesisUtterance(text);
-  u.lang="ko-KR"; if(koVoice) u.voice=koVoice; u.rate=rate; u.onend=fin; u.onerror=fin;
+  u.lang="ko-KR"; const vv=o.voice||koVoice; if(vv) u.voice=vv; u.rate=rate*(o.rf||1); u.pitch=o.pitch||1; u.onend=fin; u.onerror=fin;
   const w=setTimeout(fin, est(text)*2.2+3000);   // onend가 안 오는 기기 대비
   synth.speak(u);
 }
@@ -258,50 +309,153 @@ function say(i, done){
   })();
 }
 
+/* ===== 데이터: 전도 샘플 — 실제 전도 대화. s = 그 말을 할 때 그릴 키 그림 단계(-1 빈 종이), tip = 전도 포인트 ===== */
+const SAMPLE = {
+ title:"직장 동료 민수 씨에게",
+ scene:"점심 뒤 회사 휴게실. 요즘 부쩍 지쳐 보이는 동료 민수 씨와 커피를 마시며 이야기를 나눕니다. 종이와 펜을 꺼내 키 그림을 그리며 전합니다.",
+ you:"민수 씨(직장 동료)",
+ lines:[
+  {w:"me", s:-1, t:"민수 씨, 요즘 얼굴이 좀 피곤해 보여요. 별일 없으세요?", tip:"안부와 관심으로 시작하세요. 전도는 관계 위에서 자랍니다."},
+  {w:"you", t:"아, 프로젝트 마감에 집안일까지 겹쳐서요. 가끔은 뭘 위해 이렇게 사나 싶어요."},
+  {w:"me", t:"저도 그런 때가 많았어요. 그럴 때 제 마음을 정리해 준 그림이 하나 있는데, 5분만 보여 드려도 될까요?", tip:"바로 설명하지 말고 허락을 구하세요. 상대가 마음을 엽니다."},
+  {w:"you", t:"그림이요? 네, 한번 보죠."},
+  {w:"me", s:1, t:"여기 큰 원이 우리 삶이고, 가운데 작은 원은 삶의 중심, 왕좌예요. 대부분 이 자리에 내가 앉아 있어요. 내 뜻, 내 바람대로 살죠."},
+  {w:"you", t:"그게 당연한 거 아니에요? 내 인생인데요."},
+  {w:"me", t:"맞아요, 저도 그렇게 생각했어요. 그런데 내가 중심이면 모든 무게를 혼자 져야 하더라고요. 잘될 땐 괜찮은데, 막히면 기댈 데가 없어요.", tip:"반박하지 말고 먼저 공감하세요. 내 경험으로 이야기하면 부드럽습니다."},
+  {w:"you", t:"그건 좀 공감되네요."},
+  {w:"me", s:2, t:"성경은 이 중심 자리에 예수님을 모시라고 말해요. 예수님은 우리 죄를 대신해 십자가에서 죽으시고, 사흘 만에 다시 살아나셨어요. 그분을 마음에 모시면, 삶의 주인이 바뀌는 거예요.", tip:"복음의 핵심인 죄, 십자가, 부활을 분명하게 전하세요."},
+  {w:"you", t:"예수님을 믿으면 인생이 술술 풀린다는 얘기예요?"},
+  {w:"me", t:"아니요, 문제가 다 없어진다는 뜻은 아니에요. 다만 혼자가 아니게 되는 거죠. 방향을 잡아 주시는 분이 생기는 거예요.", tip:"과장하지 말고 정직하게 답하세요."},
+  {w:"me", s:3, t:"예수님을 모시면 먼저 구원의 확신이 생겨요. 성경은 예수님을 맞아들이는 사람에게 하나님의 자녀가 되는 권리를 주신다고 해요. 요한복음 1장 12절이에요."},
+  {w:"me", s:4, t:"그리고 하나님의 성품, 곧 하나님이 어떤 분이신지 알아 가게 돼요. 나를 끝까지 사랑하시고 약속을 지키시는 분이라는 걸요."},
+  {w:"you", t:"그럼 믿고 나서는 뭘 하면 되는데요?"},
+  {w:"me", s:5, t:"좋은 질문이에요. 바깥 원을 여덟 칸으로 나눠 볼게요. 예수님을 중심에 모신 사람이 살아가는 모습이에요."},
+  {w:"me", s:6, t:"첫째는 성경이에요. 하나님은 성경으로 말씀하세요."},
+  {w:"me", s:7, t:"둘째는 기도예요. 그 말씀에 기도로 대답하는 거죠. 하나님과 나누는 대화예요."},
+  {w:"me", s:8, t:"셋째는 교제예요. 같이 믿는 사람들과 서로 돌봐 줘요. 혼자 버티지 않아도 돼요."},
+  {w:"you", t:"아, 그래서 교회를 다니는 거군요."},
+  {w:"me", s:9, t:"네. 넷째는 전도예요. 지금 제가 민수 씨한테 하는 게 바로 전도예요. 좋은 걸 나누는 거죠."},
+  {w:"you", t:"하하, 그렇네요."},
+  {w:"me", s:10, t:"다섯째는 성령 충만이에요. 하나님의 영이 날마다 나를 이끌어 주세요."},
+  {w:"me", s:11, t:"여섯째는 시험이에요. 믿어도 어려움은 와요. 그때 무너지지 않게 하나님이 붙들어 주세요."},
+  {w:"me", s:12, t:"일곱째는 순종이에요. 배운 대로 한 걸음씩 따라 사는 거예요."},
+  {w:"me", s:13, t:"여덟째는 사역이에요. 그렇게 살다 보면 하나님이 나를 통해 다른 사람을 돕게 하세요."},
+  {w:"me", s:14, t:"이렇게 삶의 모든 부분을 예수님이 다스리시는 삶이 되는 거예요."},
+  {w:"me", s:15, t:"이 그림, 꼭 배의 키 같죠? 민수 씨, 지금 민수 씨 인생의 키는 누가 잡고 있나요?", tip:"질문으로 상대가 스스로 자기 삶을 돌아보게 하세요."},
+  {w:"you", t:"음, 제가 잡고 있죠. 그런데 솔직히 자신은 없어요."},
+  {w:"me", t:"그 키를 예수님께 맡기고 싶은 마음이 있으세요?", tip:"강요하지 말고 초대하세요. 아니라고 해도 관계를 지키는 것이 먼저입니다."},
+  {w:"you", t:"어떻게 하면 되는데요?"},
+  {w:"me", t:"어렵지 않아요. 진심으로 기도하면 돼요. 제가 먼저 한 문장씩 할 테니, 마음으로 따라 해 보실래요?"},
+  {w:"you", t:"네, 해 볼게요."},
+  {w:"me", pray:true, t:"예수님, 저는 지금까지 제 마음대로 살았습니다. 저를 위해 십자가에서 죽으시고 다시 살아나신 것을 믿습니다. 지금 제 마음에 들어오셔서, 제 삶의 주인이 되어 주세요. 예수님의 이름으로 기도합니다. 아멘.", tip:"영접 기도는 상대가 원할 때만 함께합니다. 천천히, 한 문장씩."},
+  {w:"you", t:"아멘. 왠지 마음이 좀 가벼워졌어요."},
+  {w:"me", t:"오늘 민수 씨가 한 결정을, 성경은 하나님의 자녀가 되었다고 말해요. 이번 주일에 저랑 같이 교회에 가 보실래요? 그리고 요한복음을 하루 한 장씩 같이 읽어요.", tip:"결신 뒤에는 바로 다음 만남과 교회, 말씀 읽기로 이어 주세요."},
+  {w:"you", t:"좋아요. 일요일에 연락 주세요."}
+ ],
+ faq:[
+  ["\"아직은 잘 모르겠어요.\"", "괜찮아요. 오늘 이야기를 들어 준 것만으로도 고마워요. 궁금한 게 생기면 언제든 물어보세요. (결정을 서두르지 말고 다음 만남을 약속합니다.)"],
+  ["\"교회 다니는 사람들, 별로던데요.\"", "그렇게 느끼셨다면 미안해요. 저도 많이 부족해요. 그래서 저한테도 예수님이 필요해요. (변명보다 인정과 공감이 먼저입니다.)"],
+  ["\"종교는 다 비슷한 거 아니에요?\"", "저는 종교를 설명하려는 게 아니라, 예수님이 제 삶을 어떻게 바꾸셨는지 말씀드리고 싶었어요. (논쟁 대신 내 이야기로 돌아옵니다.)"]
+ ]
+};
+(function(){ let st=-1; SAMPLE.lines.forEach(l=>{ if(l.s!=null) st=l.s; l.st=st; }); })();
+
 /* ===== 화면 ===== */
 const $=id=>document.getElementById(id);
 const chips=$("chips");
 STEPS.forEach((s,i)=>{ const b=document.createElement("button"); b.textContent=i===0?"표지":(i===LAST?"정리":s.title);
   b.onclick=()=>{ stopAll(); go(i); }; chips.appendChild(b); });
+
+/* 배우기: 단계 화면 */
 function show(i, animate){
   cur=i; const s=STEPS[i];
   $("tag").textContent=s.tag; $("title").textContent=s.title; $("draw").textContent="그리기 · "+s.draw;
   $("say").innerHTML=sentences(s.say).map(t=>`<span>${t}</span>`).join(" ");
-  $("count").textContent=`${i} / ${LAST}`;
   [...chips.children].forEach((b,k)=>{ b.classList.toggle("on",k===i); b.classList.toggle("done",k<i); });
   const on=chips.children[i]; on && on.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
-  $("prev").disabled=i===0; $("next").textContent = i===LAST ? "처음으로" : "Next ▶";
   renderKey(i, animate);
-  store.set("step",i);
+  store.set("step",i); bar();
 }
-function go(i, speak=true){ show(i,true); if(speak) say(i); }
+
+/* 전도 샘플: 대화 화면 */
+const SL=SAMPLE.lines, SLAST=SL.length-1;
+let sIdx=Math.min(store.get("sidx",0),SLAST);
+$("sTitle").textContent=SAMPLE.title; $("sScene").textContent=SAMPLE.scene; $("sYou").textContent=SAMPLE.you;
+$("talk").innerHTML=SL.map((l,k)=>`<li class="msg ${l.w}${l.pray?" pray":""}" id="ln${k}">
+  <span class="name">${l.w==="me"?(l.pray?"나 · 영접 기도":"나"):SAMPLE.you.replace(/\(.*\)/,"")}</span>
+  <div class="bub">${l.t}</div>${l.tip?`<div class="tip"><b>전도 포인트</b> · ${l.tip}</div>`:""}</li>`).join("");
+$("faq").innerHTML=SAMPLE.faq.map(([q,a])=>`<dt>${q}</dt><dd>${a}</dd>`).join("");
+[...$("talk").children].forEach((li,k)=>li.querySelector(".bub").onclick=()=>{ stopAll(); showLine(k,false); sayLine(k); });
+function showLine(i, animate){
+  const prevSt = i>0 ? SL[i-1].st : -1, moved = i!==sIdx;
+  sIdx=i;
+  [...$("talk").children].forEach((li,k)=>{ li.classList.toggle("later",k>i); li.classList.toggle("now",k===i); });
+  $("after").hidden = i<SLAST;
+  renderKey(SL[i].st, animate && SL[i].st!==prevSt);
+  const li=$("ln"+i); if(moved||animate) li.scrollIntoView({block:"end",behavior:"smooth"});
+  store.set("sidx",i); bar();
+}
+function sayLine(i, done){
+  stopSpeech(); const my=token, l=SL[i], list=sentences(l.t); let k=0;
+  const o = l.w==="me" ? {} : (koVoice2 ? {voice:koVoice2} : {pitch:1.3, rf:1.04});
+  (function next(){
+    if(my!==token) return;
+    if(k>=list.length){ done&&done(); return; }
+    speakOne(list[k], ()=>{ if(my!==token) return; k++; setTimeout(next,150); }, o);
+  })();
+}
+
+/* 메뉴 전환 · 공통 조작 */
+let mode = location.hash==="#sample" ? "sample" : store.get("mode","learn");
+const idx=()=> mode==="learn"?cur:sIdx, last=()=> mode==="learn"?LAST:SLAST;
+function showAt(i,a){ mode==="learn"?show(i,a):showLine(i,a); }
+function sayAt(i,d){ mode==="learn"?say(i,d):sayLine(i,d); }
+function go(i, speak=true){ showAt(i,true); if(speak) sayAt(i); }
+function bar(){
+  const i=idx(), L=last();
+  $("count").textContent = mode==="learn" ? `${i} / ${L}` : `${i+1} / ${L+1}`;
+  $("prev").disabled = i===0;
+  $("next").textContent = i===L ? "처음으로" : "Next ▶";
+}
+function setMode(m){
+  stopAll(); mode=m; store.set("mode",m);
+  document.body.classList.toggle("sample",m==="sample");
+  [...$("tabs").children].forEach(b=>b.classList.toggle("on",b.dataset.m===m));
+  chips.hidden = m!=="learn"; document.querySelector(".text").hidden = m!=="learn"; $("sampleView").hidden = m!=="sample";
+  showAt(idx(), false);
+  if(m==="sample") $("ln"+sIdx).scrollIntoView({block:"end"}); else window.scrollTo(0,0);
+}
+$("tabs").onclick=e=>{ const b=e.target.closest("button"); if(b && b.dataset.m!==mode) setMode(b.dataset.m); };
+const fitHdr=()=>document.documentElement.style.setProperty("--hdr", document.querySelector("header").offsetHeight+"px");
+addEventListener("resize",fitHdr);
 
 async function lockScreen(on){ try{ if(on && navigator.wakeLock) wake=await navigator.wakeLock.request("screen"); else if(wake){ wake.release(); wake=null; } }catch(e){} }
 function playAll(){
   playing=true; $("all").textContent="■ 멈춤"; lockScreen(true);
-  if(cur===0||cur===LAST) show(1,true);
+  if(mode==="learn" && (cur===0||cur===LAST)) show(1,true);
+  if(mode==="sample" && sIdx===SLAST) showLine(0,true);
   run();
 }
 function run(){
-  say(cur, ()=>{ if(!playing) return;
+  sayAt(idx(), ()=>{ if(!playing) return;
     setTimeout(()=>{ if(!playing) return;
-      if(cur<LAST){ show(cur+1,true); run(); }
-      else if($("loop").checked){ show(1,true); run(); }
+      if(idx()<last()){ showAt(idx()+1,true); run(); }
+      else if($("loop").checked){ showAt(mode==="learn"?1:0,true); run(); }
       else stopAll();
-    }, 1300);
+    }, mode==="learn"?1300:650);
   });
 }
 function stopAll(){ playing=false; $("all").textContent="전체듣기"; lockScreen(false); stopSpeech(); }
 
-$("next").onclick=()=>{ stopAll(); go(cur===LAST?0:cur+1); };
-$("prev").onclick=()=>{ stopAll(); if(cur>0) go(cur-1); };
+$("next").onclick=()=>{ stopAll(); go(idx()===last()?0:idx()+1); };
+$("prev").onclick=()=>{ stopAll(); if(idx()>0) go(idx()-1); };
 $("all").onclick=()=>{ playing?stopAll():playAll(); };
 $("say").onclick=()=>{ if(!playing) say(cur); };   // 글을 누르면 다시 듣기
 document.addEventListener("keydown",e=>{ if(e.key==="ArrowRight") $("next").click(); if(e.key==="ArrowLeft") $("prev").click(); });
 
 const rateBox=$("rate");
 function paintRate(){ [...rateBox.children].forEach(b=>b.classList.toggle("on",+b.dataset.r===rate)); }
-rateBox.onclick=e=>{ const b=e.target.closest("button"); if(!b) return; rate=+b.dataset.r; store.set("rate",rate); paintRate(); if(!playing && synth && synth.speaking) say(cur); };
+rateBox.onclick=e=>{ const b=e.target.closest("button"); if(!b) return; rate=+b.dataset.r; store.set("rate",rate); paintRate(); if(!playing && synth && synth.speaking) sayAt(idx()); };
 paintRate();
 $("loop").checked=store.get("loop",false); $("loop").onchange=e=>store.set("loop",e.target.checked);
 $("hide").checked=store.get("hide",false); document.body.classList.toggle("hide",$("hide").checked);
@@ -312,7 +466,8 @@ let deferred=null;
 window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferred=e; $("install").hidden=false; });
 $("install").onclick=async()=>{ if(!deferred) return; deferred.prompt(); await deferred.userChoice; deferred=null; $("install").hidden=true; };
 
-show(Math.min(store.get("step",0),LAST), false);
+cur=Math.min(store.get("step",0),LAST);
+fitHdr(); setMode(mode);
 </script>
 
 <script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
