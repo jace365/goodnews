@@ -1,7 +1,7 @@
 {
   "name": "Good News",
   "short_name": "Good News",
-  "description": "키 그림으로 전하는 복음 — 단계별 그림과 음성 설명",
+  "description": "키 그림으로 전하는 복음과 날짜별 QT — 그림·음성 설명, 묵상 기록",
   "lang": "ko",
   "start_url": "./",
   "scope": "./",

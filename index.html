@@ -82,7 +82,7 @@ body.hide #say:active{filter:none}
 label.tg{display:inline-flex;gap:5px;align-items:center;color:var(--muted)}
 .note{font-size:.78rem;color:var(--muted)}
 /* 메뉴 */
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--chip);border:1px solid var(--line);border-radius:14px;padding:4px}
+.tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;background:var(--chip);border:1px solid var(--line);border-radius:14px;padding:4px}
 .tabs button{border:0;border-radius:10px;padding:9px 6px;font:inherit;font-weight:700;font-size:.95rem;background:transparent;color:var(--muted);cursor:pointer}
 .tabs button.on{background:var(--btn);color:var(--btn-fg)}
 .tabs button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
@@ -114,6 +114,64 @@ body.hide .msg.now .bub:active{filter:none}
 .after dl{margin:0;display:flex;flex-direction:column;gap:8px}
 .after dt{font-weight:700;font-size:.92rem}
 .after dd{margin:0;font-size:.92rem;color:var(--muted)}
+/* QT */
+body.qt .board{display:none}
+#qtView{display:flex;flex-direction:column;gap:14px}
+#qtView[hidden]{display:none}
+.qdate{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qdate h2{font-family:var(--f-display);font-size:1.2rem;margin:0;flex:1;min-width:0;white-space:nowrap}
+.qdate input[type=date]{font:inherit;font-size:.85rem;border:1px solid var(--line);border-radius:10px;padding:5px 8px;background:var(--chip);color:var(--ink)}
+.mini{border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:4px 12px;font:inherit;font-size:.82rem;cursor:pointer}
+.mini:disabled{opacity:.45}
+.mini:focus-visible,.qhist button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.qhist{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.qhist::-webkit-scrollbar{display:none}
+.qhist button{flex:0 0 auto;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:10px;padding:4px 10px;font:inherit;font-size:.8rem;font-variant-numeric:tabular-nums;cursor:pointer}
+.qhist button small{color:var(--muted);font-size:.72rem}
+.qhist button.on{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+.qhist button.on small{color:inherit}
+.qattach{background:var(--paper);border:1.5px dashed var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.qattach p{margin:0;font-size:.92rem;color:var(--muted)}
+.qattach .row{flex-wrap:wrap}
+.qattach.compact{border-style:solid;padding:10px}
+.qattach.compact p{display:none}
+.filebtn{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:1.4;background:var(--btn);color:var(--btn-fg);border-radius:12px;padding:11px 12px;font-weight:700;cursor:pointer;min-height:44px}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.filebtn:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.sec-btn{flex:1;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:12px;padding:11px 12px;font:inherit;font-weight:700;cursor:pointer;min-height:44px}
+#qPaste,.qnote textarea,.qnote input,.qset input{width:100%;box-sizing:border-box;font:inherit;font-size:1rem;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--chip);color:var(--ink)}
+#qPaste{min-height:120px}
+#qStatus{margin:0;font-size:.88rem;color:var(--accent);min-height:0}
+#qStatus:empty{display:none}
+.qread{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.qread h3{font-family:var(--f-display);font-size:1.3rem;margin:0;text-wrap:balance}
+.qref{color:var(--muted);font-size:.9rem}
+.qsec h4{margin:10px 0 4px;font-size:.8rem;letter-spacing:.06em;color:var(--accent)}
+.qsec p{margin:0;font-size:1.06rem;line-height:1.85}
+.qsec[lang=en] p{font-family:Georgia,"Times New Roman",serif}
+.qsec span{border-radius:4px;cursor:pointer;transition:background .2s}
+.qsec span.now{background:var(--hl)}
+body.hide .qsec p{filter:blur(6px)}
+.qbox h3{font-family:var(--f-display);font-size:1.12rem;margin:0 0 8px}
+#qWordList{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.word{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--chip);display:flex;flex-direction:column;gap:3px;min-width:0}
+.whead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.whead b{font-family:Georgia,"Times New Roman",serif;font-size:1.12rem}
+.whead .mini{margin-left:auto}
+.pron{color:var(--accent);font-size:.9rem}
+.wko{font-weight:700}
+.wnote{font-size:.9rem;color:var(--muted)}
+.wex{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:.95rem}
+.wexko{font-size:.85rem;color:var(--muted)}
+.qnote{display:flex;flex-direction:column;gap:10px}
+.qnote label{display:flex;flex-direction:column;gap:4px;font-size:.88rem;font-weight:700}
+.qnote textarea{min-height:88px;resize:vertical;line-height:1.6}
+.qsaved{font-size:.8rem;color:var(--muted);text-align:right;margin:0}
+.qset{border-top:1px solid var(--line);padding-top:10px;font-size:.9rem}
+.qset summary{cursor:pointer;font-weight:700;color:var(--muted)}
+.qset fieldset{border:1px solid var(--line);border-radius:12px;margin:10px 0 0;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.qset legend{font-weight:700;padding:0 4px}
+.qset p{margin:0;color:var(--muted);font-size:.85rem}
 /* 그림 애니메이션 */
 #key .outline{fill:none;stroke:var(--stroke);stroke-width:1.5}
 #key .cap{fill:currentColor;font-family:var(--f-display);font-size:21px;font-weight:700}
@@ -135,7 +193,7 @@ body.hide .msg.now .bub:active{filter:none}
   <header>
     <h1>Good News<small>키 그림으로 전하는 복음</small></h1>
     <div class="row"><button id="install" hidden>앱 설치</button><span class="count" id="count">0 / 16</span></div>
-    <nav class="tabs" id="tabs" aria-label="메뉴"><button data-m="learn">키 그림 배우기</button><button data-m="sample">전도 샘플</button></nav>
+    <nav class="tabs" id="tabs" aria-label="메뉴"><button data-m="qt">QT</button><button data-m="learn">키</button><button data-m="sample">전도</button></nav>
   </header>
   <nav class="chips" id="chips" aria-label="단계"></nav>
   <div class="board"><svg id="key" viewBox="-218 -218 436 436" role="img" aria-label="키 그림"></svg></div>
@@ -157,6 +215,53 @@ body.hide .msg.now .bub:active{filter:none}
       <h3>이럴 땐 이렇게</h3>
       <dl id="faq"></dl>
     </div>
+  </section>
+  <section id="qtView" hidden>
+    <div class="qdate">
+      <h2 id="qDateLbl"></h2>
+      <input type="date" id="qDate" aria-label="날짜 고르기">
+      <button class="mini" id="qToday">오늘</button>
+    </div>
+    <div class="qhist" id="qHist" aria-label="저장한 QT"></div>
+    <article class="qread">
+      <div class="tag" id="qTag"></div>
+      <h3 id="qTitle"></h3>
+      <div class="qref" id="qRef"></div>
+      <div id="qSections"></div>
+    </article>
+    <section class="qbox" id="qWords">
+      <h3>영어 공부 · 주요 단어와 숙어</h3>
+      <ul id="qWordList"></ul>
+    </section>
+    <section class="qbox qnote" id="qNotes">
+      <h3>나의 묵상</h3>
+      <label>마음에 남는 말씀<input id="qVerse" placeholder="예: 여호와는 나의 목자시니 (1절)"></label>
+      <label>묵상 · 느낀 점<textarea id="qMed" placeholder="오늘 말씀이 나에게 하는 이야기"></textarea></label>
+      <label>적용 · 오늘 할 일<textarea id="qApply" placeholder="오늘 한 가지 실천할 것"></textarea></label>
+      <label>기도<textarea id="qPray" placeholder="말씀을 붙들고 드리는 기도"></textarea></label>
+      <p class="qsaved" id="qSaved" aria-live="polite"></p>
+    </section>
+    <details class="qset" id="qSet">
+      <summary>저장·연결 설정</summary>
+      <p style="margin-top:8px">지금 저장 위치: <b id="qWhere">확인 중…</b></p>
+      <div id="qSetClaude" hidden><p>나의 묵상은 로그인한 claude.ai 계정의 DB에 날짜별로 저장되며, 나만 볼 수 있습니다.</p></div>
+      <div id="qSetOuter">
+        <fieldset>
+          <legend>온라인 DB 연결 (Supabase, 선택)</legend>
+          <p>연결하면 휴대폰과 PC에서 같은 묵상 기록을 봅니다. 동기화 코드는 비밀번호처럼 나만 아는 8자 이상 글자로 정하고, 모든 기기에 똑같이 넣으세요.</p>
+          <input id="sbUrl" placeholder="Project URL (https://xxxx.supabase.co)" autocomplete="off">
+          <input id="sbKey" placeholder="anon public 키" autocomplete="off">
+          <input id="sbCode" placeholder="동기화 코드 (8자 이상)" autocomplete="off">
+          <div class="row"><button class="sec-btn" id="sbSave">연결</button><button class="sec-btn" id="sbOff">연결 끊기</button></div>
+          <p id="sbMsg"></p>
+        </fieldset>
+        <fieldset id="qBackup">
+          <legend>백업</legend>
+          <p>이 기기에 저장한 기록을 파일로 내보내거나 다시 가져옵니다.</p>
+          <div class="row"><button class="sec-btn" id="qExport">내보내기</button><label class="sec-btn" style="text-align:center">가져오기<input type="file" id="qImport" accept="application/json" hidden></label></div>
+        </fieldset>
+      </div>
+    </details>
   </section>
   <p class="note" id="tts-note" hidden>이 기기에서는 음성 읽기를 쓸 수 없어 글만 보여 줍니다.</p>
 </div>
@@ -283,18 +388,19 @@ let rate=store.get("rate",1), cur=0, playing=false, token=0, wake=null;
 
 /* ===== 음성 ===== */
 const synth=("speechSynthesis" in window)?window.speechSynthesis:null;
-let koVoice=null, koVoice2=null;
+let koVoice=null, koVoice2=null, enVoice=null;
 function pickVoice(){ if(!synth) return; const vs=synth.getVoices();
   koVoice = vs.find(v=>/ko[-_]KR/i.test(v.lang)&&/female|yuna|sunhi|heami|google/i.test(v.name)) || vs.find(v=>/^ko/i.test(v.lang)) || null;
-  koVoice2 = vs.find(v=>/^ko/i.test(v.lang) && v!==koVoice) || null; }
+  koVoice2 = vs.find(v=>/^ko/i.test(v.lang) && v!==koVoice) || null;
+  enVoice = vs.find(v=>/en[-_]US/i.test(v.lang)&&/samantha|google|aria|jenny|female/i.test(v.name)) || vs.find(v=>/^en[-_]US/i.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang)) || null; }
 if(synth){ pickVoice(); synth.onvoiceschanged=pickVoice; } else document.getElementById("tts-note").hidden=false;
 const sentences=t=>(t.match(/[^.?!]+[.?!]?/g)||[]).map(x=>x.trim()).filter(Boolean);
-function est(t){ return (t.replace(/\s/g,"").length*190)/rate + 500; }
+function est(t){ const n=t.replace(/\s/g,"").length, lat=(t.match(/[A-Za-z]/g)||[]).length; return ((n-lat)*190+lat*75)/rate + 500; }
 function speakOne(text, cb, o={}){
   if(!synth){ setTimeout(cb, est(text)); return; }
   let done=false; const fin=()=>{ if(done) return; done=true; clearTimeout(w); cb(); };
   const u=new SpeechSynthesisUtterance(text);
-  u.lang="ko-KR"; const vv=o.voice||koVoice; if(vv) u.voice=vv; u.rate=rate*(o.rf||1); u.pitch=o.pitch||1; u.onend=fin; u.onerror=fin;
+  u.lang=o.lang||"ko-KR"; const vv=o.lang?o.voice:(o.voice||koVoice); if(vv) u.voice=vv; u.rate=rate*(o.rf||1); u.pitch=o.pitch||1; u.onend=fin; u.onerror=fin;
   const w=setTimeout(fin, est(text)*2.2+3000);   // onend가 안 오는 기기 대비
   synth.speak(u);
 }
@@ -405,23 +511,199 @@ function sayLine(i, done){
   })();
 }
 
+
+/* ===== QT (Daily Bible) =====
+   날짜별 말씀은 QT_DAYS에 넣는다(사용자가 캡처를 보내면 Claude가 추가). 교재 글을 그대로 옮기지 않는다:
+   영어 본문은 KJV(공개), 우리말은 직접 쓴 풀이, 묵상·기도는 직접 쓴 글, 단어는 본문 표현.
+   나의 묵상은 저장소에 날짜별 문서 {kind:"qt", date, notes:{verse,med,apply,pray}, updatedAt}로 저장한다. */
+const QT_DAYS = {
+ "2026-10-13": {
+  title:"A Vicious Cycle of Oaths · 맹세의 악순환", ref:"사사기 21:1-12 · 찬송가 276장",
+  sections:[
+   {label:"Scripture · Judges 21:1-12 (KJV)", lang:"en", text:
+"1 Now the men of Israel had sworn in Mizpeh, saying, There shall not any of us give his daughter unto Benjamin to wife.\n2 And the people came to the house of God, and abode there till even before God, and lifted up their voices, and wept sore;\n3 And said, O LORD God of Israel, why is this come to pass in Israel, that there should be to day one tribe lacking in Israel?\n4 And it came to pass on the morrow, that the people rose early, and built there an altar, and offered burnt offerings and peace offerings.\n5 And the children of Israel said, Who is there among all the tribes of Israel that came not up with the congregation unto the LORD? For they had made a great oath concerning him that came not up to the LORD to Mizpeh, saying, He shall surely be put to death.\n6 And the children of Israel repented them for Benjamin their brother, and said, There is one tribe cut off from Israel this day.\n7 How shall we do for wives for them that remain, seeing we have sworn by the LORD that we will not give them of our daughters to wives?\n8 And they said, What one is there of the tribes of Israel that came not up to Mizpeh to the LORD? And, behold, there came none to the camp from Jabeshgilead to the assembly.\n9 For the people were numbered, and, behold, there were none of the inhabitants of Jabeshgilead there.\n10 And the congregation sent thither twelve thousand men of the valiantest, and commanded them, saying, Go and smite the inhabitants of Jabeshgilead with the edge of the sword, with the women and the children.\n11 And this is the thing that ye shall do, Ye shall utterly destroy every male, and every woman that hath lain by man.\n12 And they found among the inhabitants of Jabeshgilead four hundred young virgins, that had known no man by lying with any male: and they brought them unto the camp to Shiloh, which is in the land of Canaan."},
+   {label:"본문 우리말 풀이 (공식 번역 아님)", lang:"ko", text:
+"1 이스라엘 사람들은 미스바에서 '우리 가운데 누구도 딸을 베냐민 사람에게 아내로 주지 않겠다'고 맹세했습니다.\n2 백성은 하나님의 집에 가서 저녁까지 하나님 앞에 머물며 소리 높여 크게 울었습니다.\n3 그들이 말했습니다. '이스라엘의 하나님 여호와여, 어찌하여 이스라엘에 이런 일이 생겨 오늘 한 지파가 없어지게 되었습니까?'\n4 이튿날 백성은 일찍 일어나 그곳에 제단을 쌓고 번제와 화목제를 드렸습니다.\n5 이스라엘 자손이 물었습니다. '모든 지파 가운데 여호와 앞 총회에 올라오지 않은 이가 누구냐?' 미스바에 오지 않는 자는 반드시 죽이겠다고 크게 맹세했기 때문입니다.\n6 이스라엘 자손은 형제 베냐민 때문에 마음 아파하며 말했습니다. '오늘 이스라엘에서 한 지파가 끊어졌다.\n7 우리가 여호와를 두고 딸을 주지 않겠다고 맹세했으니, 남은 자들에게 어떻게 아내를 얻어 줄까?'\n8 미스바에 올라오지 않은 지파를 살펴보니, 야베스 길르앗에서는 한 사람도 총회에 오지 않았습니다.\n9 백성을 세어 보니 야베스 길르앗 주민은 하나도 없었습니다.\n10 회중은 가장 용감한 군사 만 이천 명을 보내며 명령했습니다. '가서 야베스 길르앗 주민을 여자와 아이까지 칼날로 쳐라.\n11 남자와, 남자를 안 여자는 모두 진멸하라.'\n12 그들은 야베스 길르앗 주민 가운데 남자를 알지 못한 젊은 처녀 사백 명을 찾아, 가나안 땅 실로의 진영으로 데려왔습니다."},
+   {label:"Reflection", lang:"en", text:
+"After the war, Israel wept over a tribe they had nearly wiped out. But instead of admitting that their rash oaths were wrong, they kept them at any cost. To fix one mistake, they attacked Jabesh-gilead and made new victims.\nA promise made in anger is not the same as God's will. When we refuse to admit a mistake, we often cover it with a bigger one. The way out of a vicious cycle is to stop, confess, and ask what God wants."},
+   {label:"묵상 길잡이", lang:"ko", text:
+"이스라엘은 베냐민 지파가 사라질 위기 앞에서 울었지만, 화가 나서 했던 두 맹세를 끝까지 지키려 했습니다. 그 결과 야베스 길르앗을 치는 또 다른 폭력을 택했습니다.\n감정에 휩쓸려 한 약속이 곧 하나님의 뜻은 아닙니다. 잘못을 인정하지 않으면 더 큰 잘못으로 덮게 됩니다. 악순환을 끊는 길은 멈추고, 고백하고, 하나님의 뜻을 묻는 것입니다.\n오늘 나는 어떤 결정을 '맹세'처럼 붙들고 있나요? 내려놓아야 할 고집은 무엇인가요?"},
+   {label:"Prayer · 기도", lang:"en", text:"Lord, help me to admit my mistakes honestly, instead of hiding them with new ones. Amen."},
+   {label:"", lang:"ko", text:"주님, 잘못을 또 다른 잘못으로 덮지 않고 정직하게 인정하게 해 주세요. 아멘."}
+  ],
+  words:[
+   {en:"a vicious cycle", pron:"어 비셔스 싸이클", ko:"악순환", note:"나쁜 일이 원인과 결과가 되어 계속 되풀이되는 것. 반대말은 a virtuous cycle(선순환).", ex:"Hiding one lie with another creates a vicious cycle.", exko:"거짓말을 또 다른 거짓말로 덮으면 악순환이 생긴다."},
+   {en:"oath (oaths)", pron:"오우쓰 (오우ㄷ즈)", ko:"맹세", note:"make / take an oath = 맹세하다. 복수 oaths는 흔히 탁한 th(ð)로 '오우ㄷ즈'처럼 소리 냅니다.", ex:"For they had made a great oath.", exko:"그들이 큰 맹세를 하였기 때문이다. (5절)"},
+   {en:"swear – swore – sworn", pron:"스웨어 – 스워 – 스원", ko:"맹세하다", note:"swear by ~ = ~을 두고 맹세하다. 일상에서는 '욕하다'라는 뜻으로도 씁니다.", ex:"We have sworn by the LORD.", exko:"우리가 여호와를 두고 맹세하였다. (7절)"},
+   {en:"give ... to wife", pron:"기브 … 투 와이프", ko:"아내로 주다, 시집보내다", note:"옛 영어 표현. 지금은 give one's daughter in marriage라고 합니다.", ex:"There shall not any of us give his daughter unto Benjamin to wife.", exko:"우리 중 누구도 딸을 베냐민에게 아내로 주지 않겠다. (1절)"},
+   {en:"lift up one's voice", pron:"리프트 업 원스 보이스", ko:"소리 높이다, 목 놓아 울다", note:"wept sore에서 sore는 '몹시, 심하게'라는 옛 표현입니다.", ex:"They lifted up their voices, and wept sore.", exko:"그들이 소리 높여 크게 울었다. (2절)"},
+   {en:"burnt offering", pron:"번트 오퍼링", ko:"번제", note:"제물을 통째로 태워 드리는 제사. peace offering은 화목제입니다.", ex:"They offered burnt offerings and peace offerings.", exko:"번제와 화목제를 드렸다. (4절)"},
+   {en:"be put to death", pron:"비 풋 투 데스", ko:"죽임을 당하다, 사형에 처해지다", note:"surely를 붙이면 '반드시'라는 강한 뜻이 됩니다.", ex:"He shall surely be put to death.", exko:"그는 반드시 죽임을 당할 것이다. (5절)"},
+   {en:"cut off", pron:"컷 오프", ko:"끊어지다, 잘려 나가다", note:"관계·공급이 끊길 때도 씁니다. The power was cut off.(전기가 끊겼다)", ex:"There is one tribe cut off from Israel this day.", exko:"오늘 이스라엘에서 한 지파가 끊어졌다. (6절)"},
+   {en:"with the edge of the sword", pron:"위드 디 엣지 어브 더 소드", ko:"칼날로", note:"sword의 w는 소리 내지 않습니다(소드).", ex:"Smite the inhabitants with the edge of the sword.", exko:"주민을 칼날로 쳐라. (10절)"},
+   {en:"utterly destroy", pron:"어털리 디스트로이", ko:"완전히 멸하다, 진멸하다", note:"utterly는 '완전히, 철저히'. 부정적인 말과 자주 함께 씁니다(utterly wrong).", ex:"Ye shall utterly destroy every male.", exko:"남자를 모두 진멸하라. (11절)"},
+   {en:"admit a mistake", pron:"어드밋 어 미스테이크", ko:"잘못을 인정하다", note:"admit은 '마지못해 사실이라고 인정하다'. 오늘 묵상의 핵심 표현입니다.", ex:"It takes courage to admit a mistake.", exko:"잘못을 인정하는 데는 용기가 필요하다."},
+   {en:"take up one's cross", pron:"테이크 업 원스 크로스", ko:"자기 십자가를 지다", note:"내 고집을 내려놓고 주님의 뜻을 따르는 것을 뜻하는 성경 표현입니다.", ex:"Take up your cross and follow me.", exko:"네 십자가를 지고 나를 따르라."}
+  ]
+ }
+};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const todayStr=()=>ymd(new Date());
+function shiftDate(s,n){ const [y,m,d]=s.split("-").map(Number); return ymd(new Date(y,m-1,d+n)); }
+function dateLabel(s){ const [y,m,d]=s.split("-").map(Number); const w="일월화수목금토"[new Date(y,m-1,d).getDay()]; return `${m}월 ${d}일 (${w})`; }
+const isEn=t=>{ const lat=(t.match(/[A-Za-z]/g)||[]).length, han=(t.match(/[가-힣]/g)||[]).length; return lat>han*1.5; };
+
+/* --- 저장소 (나의 묵상) --- */
+const QTS = { kind:"local", label:"이 기기(브라우저)에 저장", ready:null };
+const localKey=d=>"goodnews:qt:"+d;
+const LocalStore = {
+  async get(d){ try{ const v=localStorage.getItem(localKey(d)); return v?JSON.parse(v):null; }catch(e){ return null; } },
+  async put(d,data){ localStorage.setItem(localKey(d), JSON.stringify(data)); },
+  async list(){ const out=[]; try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k&&k.startsWith("goodnews:qt:")){ const v=JSON.parse(localStorage.getItem(k)); out.push({date:v.date}); } } }catch(e){}
+    return out.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,60); }
+};
+function sbCfg(){ return store.get("sb",null); }
+async function sbRpc(fn, body){
+  const c=sbCfg(); const r=await fetch(c.url.replace(/\/$/,"")+"/rest/v1/rpc/"+fn,{method:"POST",
+    headers:{"apikey":c.key,"Authorization":"Bearer "+c.key,"Content-Type":"application/json"}, body:JSON.stringify(body)});
+  if(!r.ok) throw new Error("Supabase "+r.status+" "+(await r.text()).slice(0,160));
+  const t=await r.text(); return t?JSON.parse(t):null;
+}
+const SupaStore = {
+  async get(d){ return await sbRpc("qt_get",{p_code:sbCfg().code,p_date:d}); },
+  async put(d,data){ await sbRpc("qt_put",{p_code:sbCfg().code,p_date:d,p_data:data}); },
+  async list(){ const rows=await sbRpc("qt_list",{p_code:sbCfg().code})||[]; return rows.map(r=>({date:r.qdate})); }
+};
+let cdb=null, cuid=null;
+const ClaudeStore = {
+  ref(d){ return cdb.collection("data/users/"+cuid).doc("qt-"+d); },
+  async get(d){ const s=await this.ref(d).get(); return s.exists?s.data():null; },
+  async put(d,data){ await this.ref(d).set(data); },
+  async list(){ const q=await cdb.collection("data/users/"+cuid).where("kind","==","qt").orderBy("date","desc").limit(60).get();
+    return q.docs.map(s=>({date:s.data().date})); }
+};
+let QBACK=LocalStore;
+QTS.ready=(async()=>{
+  if(window.claude && typeof window.claude.use==="function"){
+    try{
+      const [db,u]=await Promise.all([claude.use("db"),claude.use("user")]);
+      if(db && u){ const id=await u.id(); if(id){ cdb=db; cuid=id; QBACK=ClaudeStore; QTS.kind="claude"; QTS.label="claude.ai 계정 DB에 저장 (나만 보기)"; return; } }
+    }catch(e){}
+  }
+  const c=sbCfg(); if(c&&c.url&&c.key&&c.code){ QBACK=SupaStore; QTS.kind="supabase"; QTS.label="온라인 DB(Supabase)에 저장 · 같은 동기화 코드면 휴대폰·PC 같은 기록"; }
+})();
+
+/* --- 화면 --- */
+let qDate=todayStr(), qEntry=null, qList=[], qI=0, qSaved=[], qContent=null;
+function qtNotes(){ return {verse:$("qVerse").value, med:$("qMed").value, apply:$("qApply").value, pray:$("qPray").value}; }
+function renderQT(){
+  qContent = QT_DAYS[qDate] || (qEntry && (qEntry.sections||[]).length ? qEntry : null);
+  const v=qContent;
+  $("qDateLbl").textContent=dateLabel(qDate); $("qToday").disabled=qDate===todayStr();
+  $("qDate").value=qDate;
+  $("qTag").textContent = v ? "오늘의 말씀" : "아직 등록되지 않은 날";
+  $("qTitle").textContent = v ? (v.title||"제목 없음") : "이 날의 QT가 아직 없습니다";
+  $("qRef").textContent = v ? (v.ref||"") : "Daily Bible 캡처를 Claude에게 보내면 이 날짜에 말씀과 영어 단어 공부가 추가됩니다. 묵상은 지금도 적을 수 있습니다.";
+  qList=[]; let html="";
+  ((v&&v.sections)||[]).forEach(sec=>{
+    const lines=String(sec.text||"").split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    const parts=[]; lines.forEach(l=>{ (l.match(/[^.?!]+[.?!]*['"”’)]?/g)||[l]).forEach(x=>{ x=x.trim(); if(x) parts.push(x); }); parts.push("\n"); });
+    html+=`<section class="qsec" lang="${sec.lang==="en"?"en":"ko"}">${sec.label?`<h4>${esc(sec.label)}</h4>`:""}<p>`;
+    parts.forEach(t=>{ if(t==="\n"){ html+="<br>"; return; } const k=qList.length; qList.push({t, lang:sec.lang==="en"||isEn(t)?"en":"ko"}); html+=`<span data-q="${k}">${esc(t)}</span> `; });
+    html+="</p></section>";
+  });
+  $("qSections").innerHTML=html;
+  const w=(v&&v.words)||[];
+  $("qWords").hidden=!w.length;
+  $("qWordList").innerHTML = w.map((x,k)=>`<li class="word"><div class="whead"><b lang="en">${esc(x.en)}</b><span class="pron">[${esc(x.pron)}]</span><button class="mini" data-w="${k}" aria-label="${esc(x.en)} 듣기">듣기</button></div>
+      <div class="wko">${esc(x.ko)}</div>${x.note?`<div class="wnote">${esc(x.note)}</div>`:""}${x.ex?`<div class="wex" lang="en">${esc(x.ex)}</div><div class="wexko">${esc(x.exko)}</div>`:""}</li>`).join("");
+  const n=(qEntry&&qEntry.notes)||{};
+  $("qVerse").value=n.verse||""; $("qMed").value=n.med||""; $("qApply").value=n.apply||""; $("qPray").value=n.pray||"";
+  $("qSaved").textContent = qEntry&&qEntry.updatedAt ? "저장됨 · "+new Date(qEntry.updatedAt).toLocaleString("ko-KR",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}) : "";
+  qI=0; markQ(-1); renderHist(); bar();
+}
+function markQ(i){ document.querySelectorAll("#qSections span[data-q]").forEach(s=>s.classList.toggle("now",+s.dataset.q===i)); }
+function renderHist(){
+  const dates=new Set([...Object.keys(QT_DAYS), ...qSaved.map(h=>h.date)]);
+  const items=[...dates].sort((a,b)=>b.localeCompare(a)).slice(0,30);
+  $("qHist").innerHTML = items.map(d=>{ const [,m,dd]=d.split("-"); const t=QT_DAYS[d]?QT_DAYS[d].title.split(" · ").pop():"묵상";
+    return `<button data-d="${d}" class="${d===qDate?"on":""}">${+m}.${+dd} <small>${esc(t.slice(0,8))}</small></button>`; }).join("");
+}
+async function loadQT(d){
+  stopAll(); qDate=d;
+  await QTS.ready; $("qWhere").textContent=QTS.label; paintSettings();
+  try{ qEntry=await QBACK.get(d); }catch(e){ qEntry=null; $("qSaved").textContent="불러오지 못했습니다: "+e.message; }
+  renderQT();
+}
+async function refreshHist(){ try{ qSaved=await QBACK.list(); }catch(e){ qSaved=[]; } renderHist(); }
+
+let saving=false, again=false;
+async function saveQT(){
+  if(saving){ again=true; return; } saving=true;
+  try{
+    qEntry={...(qEntry||{}), kind:"qt", date:qDate, title:(qContent&&qContent.title)||"", notes:qtNotes(), updatedAt:new Date().toISOString()};
+    await QBACK.put(qDate, qEntry);
+    $("qSaved").textContent="저장됨 · "+new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"});
+    if(!qSaved.some(h=>h.date===qDate)){ qSaved.unshift({date:qDate}); renderHist(); }
+  }catch(e){ $("qSaved").textContent="저장하지 못했습니다: "+e.message; }
+  saving=false; if(again){ again=false; saveQT(); }
+}
+let noteTimer=null;
+["qVerse","qMed","qApply","qPray"].forEach(id=>$(id).addEventListener("input",()=>{ $("qSaved").textContent="입력 중…"; clearTimeout(noteTimer); noteTimer=setTimeout(saveQT,1200); }));
+
+function qtSay(i, done){
+  stopSpeech(); const my=token, it=qList[i]; if(!it){ done&&done(); return; }
+  markQ(i); const sp=document.querySelector(`#qSections span[data-q="${i}"]`); if(sp&&playing) sp.scrollIntoView({block:"center",behavior:"smooth"});
+  speakOne(it.t, ()=>{ if(my!==token) return; done&&done(); }, it.lang==="en"?{lang:"en-US",voice:enVoice}:{});
+}
+function paintSettings(){
+  const c=QTS.kind==="claude"; $("qSetOuter").hidden=c; $("qSetClaude").hidden=!c;
+  const s=sbCfg()||{}; $("sbUrl").value=s.url||""; $("sbKey").value=s.key||""; $("sbCode").value=s.code||"";
+  $("qBackup").hidden = QTS.kind!=="local" || !!window.claude;
+}
+
+$("qDate").onchange=e=>{ if(e.target.value) loadQT(e.target.value); };
+$("qToday").onclick=()=>loadQT(todayStr());
+$("qHist").onclick=e=>{ const b=e.target.closest("button[data-d]"); if(b) loadQT(b.dataset.d); };
+let qPlayFrom=null;
+$("qSections").onclick=e=>{ const s=e.target.closest("span[data-q]"); if(!s) return; stopAll(); qPlayFrom=+s.dataset.q; playAll(); };
+$("qWordList").onclick=e=>{ const b=e.target.closest("button[data-w]"); if(!b) return; stopAll();
+  const w=qContent.words[+b.dataset.w]; const my=token;
+  speakOne(w.en, ()=>{ if(my!==token||!w.ex) return; setTimeout(()=>{ if(my===token) speakOne(w.ex,()=>{}, {lang:"en-US",voice:enVoice}); },350); }, {lang:"en-US",voice:enVoice}); };
+$("sbSave").onclick=()=>{ const url=$("sbUrl").value.trim(), key=$("sbKey").value.trim(), code=$("sbCode").value.trim();
+  if(!url||!key||code.length<8){ $("sbMsg").textContent="주소, anon 키, 8자 이상 동기화 코드를 모두 넣어 주세요."; return; }
+  store.set("sb",{url,key,code}); QBACK=SupaStore; QTS.kind="supabase"; QTS.label="온라인 DB(Supabase)에 저장 · 같은 동기화 코드면 휴대폰·PC 같은 기록";
+  $("sbMsg").textContent="연결했습니다."; loadQT(qDate).then(refreshHist); };
+$("sbOff").onclick=()=>{ store.set("sb",null); QBACK=LocalStore; QTS.kind="local"; QTS.label="이 기기(브라우저)에 저장"; $("sbMsg").textContent="연결을 끊었습니다. 이제 이 기기에 저장합니다."; loadQT(qDate).then(refreshHist); };
+$("qExport").onclick=async()=>{ const all=[]; for(const h of await LocalStore.list()) all.push(await LocalStore.get(h.date));
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([JSON.stringify(all,null,1)],{type:"application/json"})); a.download="goodnews-qt-"+todayStr()+".json"; a.click(); };
+$("qImport").onchange=async e=>{ const f=e.target.files[0]; e.target.value=""; if(!f) return;
+  try{ const arr=JSON.parse(await f.text()); let n=0; for(const v of arr){ if(v&&v.date){ await QBACK.put(v.date,v); n++; } } $("sbMsg").textContent=n+"일치 기록을 가져왔습니다."; loadQT(qDate).then(refreshHist); }
+  catch(err){ $("sbMsg").textContent="가져오지 못했습니다: "+err.message; } };
+
 /* 메뉴 전환 · 공통 조작 */
-let mode = location.hash==="#sample" ? "sample" : store.get("mode","learn");
-const idx=()=> mode==="learn"?cur:sIdx, last=()=> mode==="learn"?LAST:SLAST;
-function showAt(i,a){ mode==="learn"?show(i,a):showLine(i,a); }
-function sayAt(i,d){ mode==="learn"?say(i,d):sayLine(i,d); }
+let mode = ({"#sample":"sample","#qt":"qt"})[location.hash] || store.get("mode","qt");
+const idx=()=> mode==="learn"?cur:mode==="sample"?sIdx:qI, last=()=> mode==="learn"?LAST:mode==="sample"?SLAST:Math.max(0,qList.length-1);
+function showAt(i,a){ if(mode==="learn") show(i,a); else if(mode==="sample") showLine(i,a); else { qI=i; markQ(i); } }
+function sayAt(i,d){ if(mode==="learn") say(i,d); else if(mode==="sample") sayLine(i,d); else qtSay(i,d); }
 function go(i, speak=true){ showAt(i,true); if(speak) sayAt(i); }
 function bar(){
+  if(mode==="qt"){ $("count").textContent=qDate.slice(5).replace("-","."); $("prev").disabled=false; $("prev").textContent="◀ 전날"; $("next").textContent="다음 날 ▶"; return; }
+  $("prev").textContent="◀ 이전";
   const i=idx(), L=last();
   $("count").textContent = mode==="learn" ? `${i} / ${L}` : `${i+1} / ${L+1}`;
   $("prev").disabled = i===0;
   $("next").textContent = i===L ? "처음으로" : "Next ▶";
 }
+let qtLoaded=false;
 function setMode(m){
   stopAll(); mode=m; store.set("mode",m);
-  document.body.classList.toggle("sample",m==="sample");
+  document.body.classList.toggle("sample",m==="sample"); document.body.classList.toggle("qt",m==="qt");
   [...$("tabs").children].forEach(b=>b.classList.toggle("on",b.dataset.m===m));
-  chips.hidden = m!=="learn"; document.querySelector(".text").hidden = m!=="learn"; $("sampleView").hidden = m!=="sample";
+  chips.hidden = m!=="learn"; document.querySelector(".text").hidden = m!=="learn"; $("sampleView").hidden = m!=="sample"; $("qtView").hidden = m!=="qt";
+  if(m==="qt"){ if(!qtLoaded){ qtLoaded=true; loadQT(todayStr()).then(refreshHist); } else bar(); window.scrollTo(0,0); return; }
   showAt(idx(), false);
   if(m==="sample") $("ln"+sIdx).scrollIntoView({block:"end"}); else window.scrollTo(0,0);
 }
@@ -434,6 +716,7 @@ function playAll(){
   playing=true; $("all").textContent="■ 멈춤"; lockScreen(true);
   if(mode==="learn" && (cur===0||cur===LAST)) show(1,true);
   if(mode==="sample" && sIdx===SLAST) showLine(0,true);
+  if(mode==="qt"){ if(!qList.length){ stopAll(); return; } if(qPlayFrom!=null){ qI=qPlayFrom; qPlayFrom=null; } else if(qI>=qList.length-1) qI=0; }
   run();
 }
 function run(){
@@ -442,16 +725,16 @@ function run(){
       if(idx()<last()){ showAt(idx()+1,true); run(); }
       else if($("loop").checked){ showAt(mode==="learn"?1:0,true); run(); }
       else stopAll();
-    }, mode==="learn"?1300:650);
+    }, mode==="learn"?1300:mode==="sample"?650:250);
   });
 }
 function stopAll(){ playing=false; $("all").textContent="전체듣기"; lockScreen(false); stopSpeech(); }
 
-$("next").onclick=()=>{ stopAll(); go(idx()===last()?0:idx()+1); };
-$("prev").onclick=()=>{ stopAll(); if(idx()>0) go(idx()-1); };
+$("next").onclick=()=>{ stopAll(); if(mode==="qt") return loadQT(shiftDate(qDate,1)); go(idx()===last()?0:idx()+1); };
+$("prev").onclick=()=>{ stopAll(); if(mode==="qt") return loadQT(shiftDate(qDate,-1)); if(idx()>0) go(idx()-1); };
 $("all").onclick=()=>{ playing?stopAll():playAll(); };
 $("say").onclick=()=>{ if(!playing) say(cur); };   // 글을 누르면 다시 듣기
-document.addEventListener("keydown",e=>{ if(e.key==="ArrowRight") $("next").click(); if(e.key==="ArrowLeft") $("prev").click(); });
+document.addEventListener("keydown",e=>{ if(e.target.closest&&e.target.closest("input,textarea")) return; if(e.key==="ArrowRight") $("next").click(); if(e.key==="ArrowLeft") $("prev").click(); });
 
 const rateBox=$("rate");
 function paintRate(){ [...rateBox.children].forEach(b=>b.classList.toggle("on",+b.dataset.r===rate)); }
