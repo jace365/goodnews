@@ -1,5 +1,5 @@
 // 파일을 고치면 VERSION을 올린다
-const VERSION = 'goodnews-v5';
+const VERSION = 'goodnews-v7';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES))); });
 self.addEventListener('activate', e => e.waitUntil(
