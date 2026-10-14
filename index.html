@@ -134,7 +134,7 @@ body.qt .board{display:none}
 .qattach p{margin:0;font-size:.92rem;color:var(--muted)}
 .qattach .row{flex-wrap:wrap}
 .qattach.compact{border-style:solid;padding:10px}
-.qattach.compact > p:first-child{display:none}
+.qattach.compact p{display:none}
 .filebtn{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:1.4;background:var(--btn);color:var(--btn-fg);border-radius:12px;padding:11px 12px;font-weight:700;cursor:pointer;min-height:44px}
 .filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
 .filebtn:focus-within{outline:3px solid var(--accent);outline-offset:2px}
@@ -173,6 +173,8 @@ body.hide .qsec p{filter:blur(6px)}
 .qset fieldset{border:1px solid var(--line);border-radius:12px;margin:10px 0 0;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
 .qset legend{font-weight:700;padding:0 4px}
 .qset p{margin:0;color:var(--muted);font-size:.85rem}
+.krv{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:6px 14px;font-weight:700;font-size:.9rem;text-decoration:none;background:var(--chip)}
+.krv:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 /* 그림 애니메이션 */
 #key .outline{fill:none;stroke:var(--stroke);stroke-width:1.5}
 #key .cap{fill:currentColor;font-family:var(--f-display);font-size:21px;font-weight:700}
@@ -224,18 +226,11 @@ body.hide .qsec p{filter:blur(6px)}
       <button class="mini" id="qToday">오늘</button>
     </div>
     <div class="qhist" id="qHist" aria-label="저장한 QT"></div>
-    <div class="qattach" id="qAttach">
-      <p>그날 교재 화면을 캡처해 첨부하면 글을 그대로 읽어 음성으로 들려주고, 영어 단어·숙어도 정리합니다. 읽은 글은 내 저장소에만 보관됩니다. 여러 장을 한 번에 고를 수 있습니다.</p>
-      <div class="row">
-        <label class="filebtn">캡처 이미지 첨부<input type="file" id="qFile" accept="image/*" multiple></label>
-        <button class="sec-btn" id="qClear" hidden>기본 글로 되돌리기</button>
-      </div>
-      <p id="qStatus" role="status"></p>
-    </div>
     <article class="qread">
       <div class="tag" id="qTag"></div>
       <h3 id="qTitle"></h3>
       <div class="qref" id="qRef"></div>
+      <a class="krv" id="qKrv" target="_blank" rel="noopener" hidden>개역개정으로 보기 ↗</a>
       <div id="qSections"></div>
     </article>
     <section class="qbox" id="qWords">
@@ -253,7 +248,7 @@ body.hide .qsec p{filter:blur(6px)}
     <details class="qset" id="qSet">
       <summary>저장·연결 설정</summary>
       <p style="margin-top:8px">지금 저장 위치: <b id="qWhere">확인 중…</b></p>
-      <div id="qSetClaude" hidden><p>나의 묵상과 첨부한 캡처에서 읽은 글은 로그인한 claude.ai 계정의 DB에 날짜별로 저장되며, 나만 볼 수 있습니다. 캡처 읽기는 처음 쓸 때 Claude 사용 허용을 묻습니다.</p></div>
+      <div id="qSetClaude" hidden><p>나의 묵상은 로그인한 claude.ai 계정의 DB에 날짜별로 저장되며, 나만 볼 수 있습니다.</p></div>
       <div id="qSetOuter">
         <fieldset>
           <legend>온라인 DB 연결 (Supabase, 선택)</legend>
@@ -263,14 +258,6 @@ body.hide .qsec p{filter:blur(6px)}
           <input id="sbCode" placeholder="동기화 코드 (8자 이상)" autocomplete="off">
           <div class="row"><button class="sec-btn" id="sbSave">연결</button><button class="sec-btn" id="sbOff">연결 끊기</button></div>
           <p id="sbMsg"></p>
-        </fieldset>
-        <fieldset>
-          <legend>Claude API 키 (선택)</legend>
-          <p>GitHub·설치 앱에서 캡처를 정확히 읽고 영어 단어 설명까지 만들려면 넣으세요. 키는 이 기기에만 보관되며 읽을 때마다 사용량이 청구됩니다. 없으면 기기 안에서 글자만 인식합니다.</p>
-          <input id="apiKey" type="password" placeholder="sk-ant-…" autocomplete="off">
-          <input id="apiModel" placeholder="모델 (기본 claude-sonnet-5-5)" autocomplete="off">
-          <button class="sec-btn" id="apiSave">저장</button>
-          <p id="apiMsg"></p>
         </fieldset>
         <fieldset id="qBackup">
           <legend>백업</legend>
@@ -584,6 +571,10 @@ const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const todayStr=()=>ymd(new Date());
 function shiftDate(s,n){ const [y,m,d]=s.split("-").map(Number); return ymd(new Date(y,m-1,d+n)); }
 function dateLabel(s){ const [y,m,d]=s.split("-").map(Number); const w="일월화수목금토"[new Date(y,m-1,d).getDay()]; return `${m}월 ${d}일 (${w})`; }
+/* 대한성서공회 온라인 성경(개역개정) 주소: ref 앞부분 "책이름 장:절-절"에서 만든다 */
+const KRV_BOOKS={"창세기":"gen","출애굽기":"exo","레위기":"lev","민수기":"num","신명기":"deu","여호수아":"jos","사사기":"jdg","룻기":"rut","사무엘상":"1sa","사무엘하":"2sa","열왕기상":"1ki","열왕기하":"2ki","역대상":"1ch","역대하":"2ch","에스라":"ezr","느헤미야":"neh","에스더":"est","욥기":"job","시편":"psa","잠언":"pro","전도서":"ecc","아가":"sng","이사야":"isa","예레미야":"jer","예레미야애가":"lam","에스겔":"ezk","다니엘":"dan","호세아":"hos","요엘":"jol","아모스":"amo","오바댜":"oba","요나":"jnh","미가":"mic","나훔":"nam","하박국":"hab","스바냐":"zep","학개":"hag","스가랴":"zec","말라기":"mal","마태복음":"mat","마가복음":"mrk","누가복음":"luk","요한복음":"jhn","사도행전":"act","로마서":"rom","고린도전서":"1co","고린도후서":"2co","갈라디아서":"gal","에베소서":"eph","빌립보서":"php","골로새서":"col","데살로니가전서":"1th","데살로니가후서":"2th","디모데전서":"1ti","디모데후서":"2ti","디도서":"tit","빌레몬서":"phm","히브리서":"heb","야고보서":"jas","베드로전서":"1pe","베드로후서":"2pe","요한일서":"1jn","요한이서":"2jn","요한삼서":"3jn","유다서":"jud","요한계시록":"rev"};
+function krvUrl(ref){ const m=String(ref||"").match(/^\s*([가-힣]+)\s*(\d+)(?::(\d+))?/); if(!m||!KRV_BOOKS[m[1]]) return null;
+  return `https://www.bskorea.or.kr/bible/korbibReadpage.php?version=GAE&book=${KRV_BOOKS[m[1]]}&chap=${m[2]}&sec=${m[3]||1}`; }
 const isEn=t=>{ const lat=(t.match(/[A-Za-z]/g)||[]).length, han=(t.match(/[가-힣]/g)||[]).length; return lat>han*1.5; };
 
 /* --- 저장소 (나의 묵상) --- */
@@ -607,7 +598,7 @@ const SupaStore = {
   async put(d,data){ await sbRpc("qt_put",{p_code:sbCfg().code,p_date:d,p_data:data}); },
   async list(){ const rows=await sbRpc("qt_list",{p_code:sbCfg().code})||[]; return rows.map(r=>({date:r.qdate})); }
 };
-let cdb=null, cuid=null, csample=null;
+let cdb=null, cuid=null;
 const ClaudeStore = {
   ref(d){ return cdb.collection("data/users/"+cuid).doc("qt-"+d); },
   async get(d){ const s=await this.ref(d).get(); return s.exists?s.data():null; },
@@ -619,77 +610,25 @@ let QBACK=LocalStore;
 QTS.ready=(async()=>{
   if(window.claude && typeof window.claude.use==="function"){
     try{
-      const [db,u,sm]=await Promise.all([claude.use("db"),claude.use("user"),claude.use("sample")]);
-      csample=sm;
+      const [db,u]=await Promise.all([claude.use("db"),claude.use("user")]);
       if(db && u){ const id=await u.id(); if(id){ cdb=db; cuid=id; QBACK=ClaudeStore; QTS.kind="claude"; QTS.label="claude.ai 계정 DB에 저장 (나만 보기)"; return; } }
     }catch(e){}
   }
   const c=sbCfg(); if(c&&c.url&&c.key&&c.code){ QBACK=SupaStore; QTS.kind="supabase"; QTS.label="온라인 DB(Supabase)에 저장 · 같은 동기화 코드면 휴대폰·PC 같은 기록"; }
 })();
 
-/* --- 글 읽기·단어 설명 (AI) --- */
-function qtPrompt(date, srcNote){ return `너는 QT(매일 성경 묵상) 도우미다. ${srcNote} 날짜는 ${date}이다.
-1) 글을 빠짐없이, 읽는 순서대로 그대로 옮겨 적는다. 요약하거나 고치지 않는다. 앱 메뉴·시계·배터리·광고 같은 화면 글자는 뺀다.
-   제목·소제목 단위로 sections에 나눈다(label은 소제목, 없으면 "본문"). lang은 한국어 "ko", 영어 "en". 성경 절은 줄바꿈으로 나누고 절 번호는 그대로 둔다.
-2) title은 오늘 묵상 제목, ref는 성경 본문 범위(예: "시편 23:1-6"). 없으면 "".
-3) words는 영어 공부용 주요 단어·숙어 6~10개. 영어 글이 있으면 거기서 고르고, 없으면 오늘 본문 핵심 구절의 KJV 또는 WEB(공개 번역) 영어 표현에서 고른다.
-   각 항목: en(단어·숙어), pron(한국어 발음 표기, 예: shepherd→셰퍼드, the→더), ko(뜻), note(쓰임·뉘앙스 한두 문장, 한국어), ex(본문 속 영어 문장 또는 쉬운 예문), exko(예문 해석).
-JSON 하나만 출력한다: {"title":"","ref":"","sections":[{"label":"","lang":"ko","text":""}],"words":[{"en":"","pron":"","ko":"","note":"","ex":"","exko":""}]}`; }
-function apiKey(){ return store.get("apikey",""); }
-function apiModel(){ return store.get("apimodel","claude-sonnet-5-5"); }
-async function aiMode(){ await QTS.ready;
-  if(csample){ const lim=await csample.limits().catch(()=>null); return {kind:"claude", images:!!(lim&&lim.images)}; }
-  if(apiKey()) return {kind:"api", images:true};
-  return {kind:"none", images:false};
-}
-const blobToB64=b=>new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(String(r.result).split(",")[1]); r.onerror=rej; r.readAsDataURL(b); });
-function parseJSON(t){ const m=String(t).match(/\{[\s\S]*\}/); if(!m) throw new Error("응답에서 JSON을 찾지 못했습니다"); return JSON.parse(m[0]); }
-async function askAI(prompt, images){
-  const m=await aiMode();
-  if(m.kind==="claude") return await csample.json(prompt, images&&images.length?{images, modelTier:"default"}:{modelTier:"default"});
-  if(m.kind==="api"){
-    const content=[]; for(const b of images||[]) content.push({type:"image",source:{type:"base64",media_type:b.type||"image/jpeg",data:await blobToB64(b)}});
-    content.push({type:"text",text:prompt});
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"x-api-key":apiKey(),"anthropic-version":"2023-06-01",
-      "anthropic-dangerous-direct-browser-access":"true","content-type":"application/json"},
-      body:JSON.stringify({model:apiModel(),max_tokens:8000,messages:[{role:"user",content}]})});
-    if(!r.ok) throw new Error("Claude API "+r.status+": "+(await r.text()).slice(0,200));
-    const j=await r.json(); return parseJSON((j.content||[]).map(c=>c.text||"").join(""));
-  }
-  throw new Error("no-ai");
-}
-function shrink(file){ return new Promise((res)=>{ const img=new Image(); const url=URL.createObjectURL(file);
-  img.onload=()=>{ const s=Math.min(1,1600/Math.max(img.width,img.height)); const c=document.createElement("canvas");
-    c.width=Math.round(img.width*s); c.height=Math.round(img.height*s); c.getContext("2d").drawImage(img,0,0,c.width,c.height);
-    URL.revokeObjectURL(url); c.toBlob(b=>res(b||file),"image/jpeg",.86); };
-  img.onerror=()=>{ URL.revokeObjectURL(url); res(file); }; img.src=url; }); }
-function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=()=>rej(new Error("글자 인식 도구를 불러오지 못했습니다")); document.head.appendChild(s); }); }
-async function ocr(blobs, onProg){
-  if(!window.Tesseract) await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js");
-  let out=[]; for(let i=0;i<blobs.length;i++){
-    const r=await Tesseract.recognize(blobs[i],"kor+eng",{logger:m=>{ if(m.status==="recognizing text") onProg(`글자 인식 중 ${i+1}/${blobs.length} · ${Math.round(m.progress*100)}%`); }});
-    out.push(r.data.text); }
-  return out.join("\n\n");
-}
-function textToSections(text){
-  return text.split(/\n\s*\n/).map(p=>p.replace(/[ \t]+\n/g,"\n").trim()).filter(Boolean)
-    .map((p,i)=>({label:i===0?"본문":"", lang:isEn(p)?"en":"ko", text:p}));
-}
-
 /* --- 화면 --- */
-let qDate=todayStr(), qEntry=null, qList=[], qI=0, qSaved=[], qContent=null, qBusy=false, qMine=false;
+let qDate=todayStr(), qEntry=null, qList=[], qI=0, qSaved=[], qContent=null;
 function qtNotes(){ return {verse:$("qVerse").value, med:$("qMed").value, apply:$("qApply").value, pray:$("qPray").value}; }
 function renderQT(){
-  qMine = !!(qEntry && (qEntry.sections||[]).length);
-  const base = QT_DAYS[qDate] || null;
-  qContent = qMine ? {...qEntry, words:(qEntry.words||[]).length ? qEntry.words : ((base&&base.words)||[])} : base;
+  qContent = QT_DAYS[qDate] || (qEntry && (qEntry.sections||[]).length ? qEntry : null);
   const v=qContent;
-  $("qAttach").classList.toggle("compact", !!v); $("qClear").hidden=!qMine;
   $("qDateLbl").textContent=dateLabel(qDate); $("qToday").disabled=qDate===todayStr();
   $("qDate").value=qDate;
-  $("qTag").textContent = qMine ? "내가 첨부한 캡처에서 읽은 글" : v ? "오늘의 말씀" : "아직 등록되지 않은 날";
+  $("qTag").textContent = v ? "오늘의 말씀" : "아직 등록되지 않은 날";
   $("qTitle").textContent = v ? (v.title||"제목 없음") : "이 날의 QT가 아직 없습니다";
-  $("qRef").textContent = v ? (v.ref||"") : "위의 '캡처 이미지 첨부'로 그날 교재 화면을 올리면 글을 읽어 들려줍니다. 묵상은 지금도 적을 수 있습니다.";
+  const ku = v ? krvUrl(v.ref) : null; $("qKrv").hidden=!ku; if(ku){ $("qKrv").href=ku; $("qKrv").textContent=`개역개정으로 보기 · ${String(v.ref).split(" · ")[0]} ↗`; }
+  $("qRef").textContent = v ? (v.ref||"") : "그날 교재 캡처를 Claude에게 보내면 이 날짜에 말씀과 영어 단어 공부가 추가됩니다. 묵상은 지금도 적을 수 있습니다.";
   qList=[]; let html="";
   ((v&&v.sections)||[]).forEach(sec=>{
     const lines=String(sec.text||"").split(/\n+/).map(s=>s.trim()).filter(Boolean);
@@ -717,7 +656,7 @@ function renderHist(){
   const on=$("qHist").querySelector("button.on"); if(on) on.scrollIntoView({block:"nearest",inline:"center"});
 }
 async function loadQT(d){
-  stopAll(); qDate=d; $("qStatus").textContent="";
+  stopAll(); qDate=d;
   await QTS.ready; $("qWhere").textContent=QTS.label; paintSettings();
   try{ qEntry=await QBACK.get(d); }catch(e){ qEntry=null; $("qSaved").textContent="불러오지 못했습니다: "+e.message; }
   renderQT();
@@ -728,7 +667,7 @@ let saving=false, again=false;
 async function saveQT(){
   if(saving){ again=true; return; } saving=true;
   try{
-    qEntry={...(qEntry||{}), kind:"qt", date:qDate, title:(qMine&&qEntry.title)||(qContent&&qContent.title)||"", notes:qtNotes(), updatedAt:new Date().toISOString()};
+    qEntry={...(qEntry||{}), kind:"qt", date:qDate, title:(qContent&&qContent.title)||"", notes:qtNotes(), updatedAt:new Date().toISOString()};
     await QBACK.put(qDate, qEntry);
     $("qSaved").textContent="저장됨 · "+new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"});
     if(!qSaved.some(h=>h.date===qDate)){ qSaved.unshift({date:qDate}); renderHist(); }
@@ -743,42 +682,8 @@ function qtSay(i, done){
   markQ(i); const sp=document.querySelector(`#qSections span[data-q="${i}"]`); if(sp&&playing) sp.scrollIntoView({block:"center",behavior:"smooth"});
   speakOne(it.t, ()=>{ if(my!==token) return; done&&done(); }, it.lang==="en"?{lang:"en-US",voice:enVoice}:{});
 }
-async function ingest(images, text){
-  if(qBusy) return; qBusy=true; stopAll();
-  const st=$("qStatus"); const m=await aiMode(); let data=null;
-  try{
-    if(m.kind!=="none" && (!images.length || m.images)){
-      st.textContent = images.length ? "캡처를 읽고 단어를 정리하는 중… (30초쯤 걸립니다)" : "글을 정리하고 단어를 고르는 중…";
-      const blobs=[]; for(const f of images) blobs.push(await shrink(f));
-      data=await askAI(qtPrompt(qDate, images.length?"첨부한 이미지는 사용자가 캡처한 Daily Bible(매일 성경 묵상) 화면이다.":"아래 글은 사용자가 붙여 넣은 Daily Bible(매일 성경 묵상) 글이다.\n\n<글>\n"+text+"\n</글>\n"), blobs);
-    } else if(images.length){
-      const blobs=[]; for(const f of images) blobs.push(await shrink(f));
-      st.textContent="글자 인식 도구를 준비하는 중…";
-      const t=await ocr(blobs, s=>st.textContent=s);
-      data={title:"",ref:"",sections:textToSections(t),words:[]};
-    } else data={title:"",ref:"",sections:textToSections(text),words:[]};
-    if(!data || !Array.isArray(data.sections) || !data.sections.length) throw new Error("읽을 글을 찾지 못했습니다");
-    qEntry={...(qEntry||{}), kind:"qt", date:qDate, title:data.title||"", ref:data.ref||"",
-      sections:data.sections.map(s=>({label:String(s.label||""),lang:s.lang==="en"?"en":"ko",text:String(s.text||"")})),
-      words:(data.words||[]).slice(0,12).map(w=>({en:String(w.en||""),pron:String(w.pron||""),ko:String(w.ko||""),note:String(w.note||""),ex:String(w.ex||""),exko:String(w.exko||"")})),
-      notes:qtNotes()};
-    renderQT(); await saveQT();
-    st.textContent = qEntry.words.length ? "다 읽었습니다. 전체듣기를 누르면 처음부터 읽어 드립니다." :
-      "글을 읽었습니다."+(QT_DAYS[qDate]?" 영어 단어는 이 날짜의 기본 단어를 보여 드립니다.":" 영어 단어 설명은 '저장·연결 설정'에서 Claude API 키를 넣으면 만들어집니다.");
-  }catch(e){
-    const code=e&&e.code;
-    st.textContent = code==="not_granted" ? "Claude 사용이 허용되지 않아 읽지 못했습니다. 페이지의 권한 메뉴에서 허용해 주세요."
-      : code==="rate_limited" ? "요청이 많아 잠시 쉬어야 합니다. 1~2분 뒤 다시 시도해 주세요."
-      : "읽지 못했습니다: "+(e.message||e);
-  }
-  qBusy=false;
-}
-$("qFile").onchange=e=>{ const f=[...e.target.files]; e.target.value=""; if(f.length) ingest(f,""); };
-$("qClear").onclick=async()=>{ if(!qEntry) return; stopAll(); qEntry={...qEntry, sections:[], words:[], title:"", ref:""}; qMine=false; await saveQT(); renderQT(); $("qStatus").textContent="첨부한 글을 지우고 기본 글로 되돌렸습니다."; };
-$("apiSave").onclick=()=>{ store.set("apikey",$("apiKey").value.trim()); store.set("apimodel",$("apiModel").value.trim()||"claude-sonnet-5-5"); $("apiMsg").textContent=$("apiKey").value.trim()?"저장했습니다. 이 기기에만 보관됩니다.":"키를 지웠습니다."; };
 function paintSettings(){
   const c=QTS.kind==="claude"; $("qSetOuter").hidden=c; $("qSetClaude").hidden=!c;
-  $("apiKey").value=apiKey(); $("apiModel").value=apiModel();
   const s=sbCfg()||{}; $("sbUrl").value=s.url||""; $("sbKey").value=s.key||""; $("sbCode").value=s.code||"";
   $("qBackup").hidden = QTS.kind!=="local" || !!window.claude;
 }
